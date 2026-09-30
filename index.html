@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a1512">
+  <title>Mi Taxi Radery</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div id="app">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-left">
+        <button class="icon-btn" id="btnNotifications" aria-label="Notificaciones">
+          🔔<span class="badge" id="notifBadge">3</span>
+        </button>
+      </div>
+      <div class="header-center">
+        <h1 class="app-title">
+          <span class="title-line">Mi Taxi</span>
+          <span class="title-line accent">Radery</span>
+        </h1>
+        <div class="logo-car">🚕</div>
+      </div>
+      <div class="header-right">
+        <button class="icon-btn" id="btnProfile" aria-label="Perfil">
+          <span class="avatar">👤</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- SELECTOR DE BASE -->
+    <div class="base-selector">
+      <label>Base activa:</label>
+      <select id="selectBase">
+        <option value="base1">Base 1 — Ecocenter (García)</option>
+        <option value="base234">Base 2-3-4-PN-11-12 — Maneiro/Costa Azul/Ratán/Río</option>
+        <option value="base6" selected>Base 6 — Río Terranova (Mariño)</option>
+        <option value="base10">Base 10 — Nova Sabanamar (Mariño)</option>
+      </select>
+    </div>
+
+    <!-- MAPA -->
+    <section class="map-section">
+      <div class="map-container" id="mapContainer">
+        <div class="map-grid"></div>
+        <div class="map-label map-pampatar">Pampatar</div>
+        <div class="map-marker driver-marker" style="top:55%; left:45%;">
+          <span class="pulse"></span>🚕
+        </div>
+        <div class="map-marker dest-marker" style="top:30%; left:65%;">
+          📍
+        </div>
+        <button class="map-btn locate-btn" id="btnLocate">🎯</button>
+        <div class="map-route"></div>
+      </div>
+    </section>
+
+    <!-- PANEL SUPERIOR DERECHO: TIMER + FARE -->
+    <section class="top-panels">
+
+      <div class="shift-timer" id="shiftTimer">
+        <div class="timer-ring">
+          <svg viewBox="0 0 100 100">
+            <circle class="ring-bg" cx="50" cy="50" r="45"/>
+            <circle class="ring-progress" cx="50" cy="50" r="45" id="ringProgress"/>
+          </svg>
+          <div class="timer-content">
+            <div class="timer-label">SHIFT TIMER</div>
+            <div class="timer-value" id="timerValue">00:00</div>
+            <div class="timer-status" id="timerStatus">INACTIVO</div>
+          </div>
+        </div>
+        <div class="timer-display" id="timerFull">00:00:00</div>
+        <button class="btn-jornada" id="btnJornada">Iniciando mi 04</button>
+      </div>
+
+      <div class="fare-calculator">
+        <div class="fare-label">Live Fare Calculator</div>
+        <div class="fare-amount" id="fareAmount">$0.00</div>
+        <div class="fare-details">
+          <div><span id="fareDistance">0 km</span> · Distancia</div>
+          <div><span id="fareTime">0 min</span> · Tiempo</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- BOTONES RÁPIDOS (intercambiables) -->
+    <section class="quick-buttons" id="quickButtons">
+      <button class="quick-btn zone-a" data-clave="145" data-nombre="El Yaque">
+        <span class="qb-icon">🏖️</span>
+        <span class="qb-name">El Yaque</span>
+        <span class="qb-clave">145</span>
+      </button>
+      <button class="quick-btn zone-b" data-clave="121" data-nombre="Guacuco">
+        <span class="qb-icon">🏖️</span>
+        <span class="qb-name">Guacuco</span>
+        <span class="qb-clave">121</span>
+      </button>
+      <button class="quick-btn zone-c" data-clave="143" data-nombre="Playa El Agua">
+        <span class="qb-icon">🏖️</span>
+        <span class="qb-name">Playa El Agua</span>
+        <span class="qb-clave">143</span>
+      </button>
+      <button class="quick-btn zone-d" data-clave="334" data-nombre="Manzanillo">
+        <span class="qb-icon">🏖️</span>
+        <span class="qb-name">Manzanillo</span>
+        <span class="qb-clave">334</span>
+      </button>
+      <button class="quick-btn zone-e" data-clave="C-3" data-nombre="C.C. Costa Azul">
+        <span class="qb-icon">🏢</span>
+        <span class="qb-name">C.C. Costa Azul</span>
+        <span class="qb-clave">C-3</span>
+      </button>
+      <button class="quick-btn zone-f" data-clave="285" data-nombre="Mata de Coco">
+        <span class="qb-icon">🏘️</span>
+        <span class="qb-name">Mata de Coco</span>
+        <span class="qb-clave">285</span>
+      </button>
+      <button class="quick-btn zone-g" data-clave="141" data-nombre="Pampatar">
+        <span class="qb-icon">🏰</span>
+        <span class="qb-name">Pampatar</span>
+        <span class="qb-clave">141</span>
+      </button>
+      <button class="quick-btn zone-h" data-clave="330" data-nombre="Urb. Maneiro">
+        <span class="qb-icon">🏘️</span>
+        <span class="qb-name">Urb. Maneiro</span>
+        <span class="qb-clave">330</span>
+      </button>
+      <button class="quick-btn add-btn" id="btnAddZone">
+        <span class="qb-icon">➕</span>
+        <span class="qb-name">Añadir</span>
+      </button>
+    </section>
+
+    <!-- BOTÓN DE VOZ WALKIE-TALKIE -->
+    <section class="voice-section">
+      <div class="voice-title">Walkie-Talkie Radio Voice</div>
+      <button class="voice-button" id="btnVoice">
+        <div class="voice-ring"></div>
+        <div class="voice-ring"></div>
+        <div class="voice-ring"></div>
+        <div class="voice-mic">🎤</div>
+        <div class="voice-label">SPEAK</div>
+      </button>
+      <div class="voice-transcript" id="voiceTranscript"></div>
+    </section>
+
+    <!-- TRIP DETAILS -->
+    <section class="trip-details" id="tripDetails">
+      <div class="trip-title">TRIP DETAILS</div>
+      <div class="trip-body">
+        <div class="trip-point">
+          <span class="dot green"></span>
+          <span id="tripOrigin">MATA DE COCO</span>
+        </div>
+        <div class="trip-arrow">↓</div>
+        <div class="trip-point">
+          <span class="dot yellow"></span>
+          <span id="tripDest">EL YAQUE</span>
+        </div>
+      </div>
+      <div class="trip-meta">
+        <span>⏱️ <span id="tripTime">22 min</span></span>
+        <span>💰 <span id="tripFare">$13.00</span></span>
+      </div>
+    </section>
+
+    <!-- BOTÓN ACEPTAR CARRERA -->
+    <button class="accept-ride-btn" id="btnAcceptRide">🚕 Aceptar Carrera</button>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-screen="dashboard">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Dashboard</span>
+      </button>
+      <button class="nav-btn" data-screen="trips">
+        <span class="nav-icon">🗺️</span>
+        <span class="nav-label">Viajes</span>
+      </button>
+      <button class="nav-btn" data-screen="history">
+        <span class="nav-icon">📋</span>
+        <span class="nav-label">Historial</span>
+      </button>
+      <button class="nav-btn" data-screen="messages">
+        <span class="nav-icon">💬</span>
+        <span class="nav-label">Mensajes</span>
+      </button>
+      <button class="nav-btn" data-screen="settings">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">Ajustes</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
