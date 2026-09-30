@@ -787,3 +787,59 @@ body {
   .timer-value { font-size: 18px; }
   .quick-btn { min-height: 50px; }
   .qb-icon { font-size: 14px
+
+/* ============ TEMA DÍA (claro) ============ */
+body[data-theme="light"] {
+  --bg-dark: #f0f5f3;
+  --bg-panel: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --neon-green: #00a86b;
+  --neon-green-soft: #008c56;
+  --neon-yellow: #d4a017;
+  --neon-gold: #c8950a;
+  --neon-cyan: #0288a8;
+  --text-primary: #0a1c18;
+  --text-secondary: #4a6d63;
+  --border-glow: rgba(0, 168, 107, 0.3);
+  --shadow-glow: 0 0 20px rgba(0, 168, 107, 0.3);
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(0, 168, 107, 0.08), transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(200, 149, 10, 0.06), transparent 40%);
+}
+
+body[data-theme="light"] .map-container {
+  background: linear-gradient(135deg, #e6f5ee 0%, #d9ede4 100%);
+}
+
+body[data-theme="light"] .map-grid {
+  background-image:
+    linear-gradient(rgba(0, 168, 107, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 168, 107, 0.1) 1px, transparent 1px);
+}
+
+body[data-theme="light"] .bottom-nav {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+body[data-theme="light"] .header {
+  background: linear-gradient(180deg, rgba(0, 168, 107, 0.06), transparent);
+}
+
+/* ============ HEADER RIGHT (2 botones) ============ */
+.header-right {
+  display: flex;
+  gap: 8px;
+}
+
+/* ============ FIX: paneles superiores (no se monten) ============ */
+.top-panels {
+  position: absolute;
+  top: 165px;
+  right: 10px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.top-panels > * {
+  pointer-events: auto;
+}
