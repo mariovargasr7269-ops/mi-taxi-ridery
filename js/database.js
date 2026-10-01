@@ -254,4 +254,410 @@ const DATABASE = {
     '336': { nombre: 'Punta Arenas', alias: ['punta arenas'], municipio: 'Macanao' },
     '337': { nombre: 'Boca de Pozo', alias: ['boca de pozo', 'boca pozo'], municipio: 'Macanao' },
     '338': { nombre: 'Robledal', alias: ['robledal', 'robleda'], municipio: 'Macanao' },
-    '339': { nombre: 'La Pared', alias: ['la pared', 'pared'],
+    '339': { nombre: 'La Pared', alias: ['la pared', 'pared'], municipio: 'Macanao' },
+    '340': { nombre: 'San Francisco de Macanao', alias: ['san francisco', 'san francisco macanao'], municipio: 'Macanao' },
+
+    // ---- CENTROS COMERCIALES (C-1 a C-22) ----
+    'C-1': { nombre: 'Sambil Margarita', alias: ['sambil', 'cc sambil', 'c c sambil'], municipio: 'Mariño' },
+    'C-2': { nombre: 'C.C. La Vela', alias: ['la vela', 'cc la vela'], municipio: 'Mariño' },
+    'C-3': { nombre: 'C.C. Parque Costazul', alias: ['costazul', 'parque costazul', 'cc costazul'], municipio: 'Mariño' },
+    'C-4': { nombre: 'C.C. Rattan Plaza', alias: ['rattan', 'rattan plaza'], municipio: 'Mariño' },
+    'C-5': { nombre: 'City Place', alias: ['city place'], municipio: 'Mariño' },
+    'C-6': { nombre: 'C.C. La Redoma', alias: ['la redoma', 'cc la redoma'], municipio: 'Mariño' },
+    'C-7': { nombre: 'C.C. A.B.', alias: ['ab', 'cc ab'], municipio: 'Mariño' },
+    'C-8': { nombre: 'C.C. C.C.M.', alias: ['ccm', 'cc ccm'], municipio: 'Mariño' },
+    'C-9': { nombre: 'Paraíso Center Plaza', alias: ['paraiso center'], municipio: 'Mariño' },
+    'C-10': { nombre: 'Agua Center', alias: ['agua center'], municipio: 'Mariño' },
+    'C-11': { nombre: 'Costa Azul (Sr. Frogs)', alias: ['costa azul', 'sr frogs costa azul'], municipio: 'Mariño' },
+    'C-12': { nombre: 'Bayside', alias: ['bayside'], municipio: 'Mariño' },
+    'C-13': { nombre: 'Galería Fenter', alias: ['galeria fenter', 'fenter'], municipio: 'Mariño' },
+    'C-14': { nombre: 'C.C. Jumbo', alias: ['jumbo', 'cc jumbo'], municipio: 'Mariño' },
+    'C-15': { nombre: 'Galería La Francia', alias: ['galeria la francia', 'la francia'], municipio: 'Mariño' },
+    'C-16': { nombre: 'Concord', alias: ['concord'], municipio: 'Mariño' },
+    'C-17': { nombre: 'Makro', alias: ['makro'], municipio: 'Mariño' },
+    'C-18': { nombre: 'Terranova Plaza', alias: ['terranova plaza'], municipio: 'Mariño' },
+    'C-19': { nombre: 'Mercado La Isla', alias: ['mercado la isla', 'la isla'], municipio: 'Mariño' },
+    'C-20': { nombre: 'Ecocenter', alias: ['ecocenter', 'eco center'], municipio: 'García' },
+    'C-21': { nombre: 'Traki', alias: ['traki'], municipio: 'Mariño' },
+    'C-22': { nombre: 'Las Villas', alias: ['las villas cc'], municipio: 'García' },
+
+    // ---- PUERTOS Y AEROPUERTO (101-107) ----
+    '101': { nombre: 'Muelle Faro Porlamar', alias: ['muelle faro', 'faro porlamar'], municipio: 'Mariño' },
+    '102': { nombre: 'Aeropuerto', alias: ['aeropuerto', 'aeropuerto santiago mariño'], municipio: 'García' },
+    '103': { nombre: 'Marina de Venetúr', alias: ['marina venetur', 'venetur'], municipio: 'Mariño' },
+    '104': { nombre: 'Muelle La Isleta', alias: ['muelle la isleta', 'muelle isleta'], municipio: 'García' },
+    '105': { nombre: 'Punta de Piedras', alias: ['punta de piedras', 'muelle punta de piedras'], municipio: 'Tubores' },
+    '106': { nombre: 'Puerto El Guamache', alias: ['puerto el guamache', 'guamache puerto'], municipio: 'Tubores' },
+    '107': { nombre: 'Terminal del Yaque', alias: ['terminal del yaque', 'terminal yaque'], municipio: 'Díaz' },
+
+    // ---- CÓDIGOS ESPECIALES (hospital, militar, etc.) ----
+    '85': { nombre: 'Hospital/Clínica (Nueva Esparta / Militar)', alias: ['hospital', 'clinica', 'hospital nueva esparta', 'hospital militar'], municipio: 'Mariño' },
+    '91': { nombre: 'El Caney de Felo', alias: ['el caney', 'caney de felo', 'caney'], municipio: 'Mariño' },
+    '95': { nombre: 'Club de Campo', alias: ['club de campo'], municipio: 'Mariño' },
+    'P-4': { nombre: '911 / Juan B. Arismendi', alias: ['911', 'juan bautista arismendi', 'transito'], municipio: 'Mariño' }
+  },
+
+  // ============================================================
+  // TARIFAS POR BASE
+  // ============================================================
+  tarifas: {
+    base1: {
+      nombre: 'Base 1 — Ecocenter (García)',
+      municipio: 'García',
+      precios: {
+        '170': 4.00, '102': 12.00, '133': 9.00, '284': 17.00, '263': 15.00,
+        '128': 9.00, '135': 8.00, '256': 15.00, '238': 7.00, '237': 6.00,
+        '160': 5.00, '155': 7.00, '235': 5.00, '167': 5.00, '156': 6.00,
+        '165': 5.00, '335': 40.00, '337': 45.00, '330': 30.00, '281': 17.00,
+        '300': 12.00, '313': 14.00, 'C-7': 7.00, 'C-8': 7.00, 'C-14': 5.00,
+        'C-6': 7.00, 'C-2': 7.00, 'C-3': 7.00, 'C-4': 7.00, 'C-1': 7.00,
+        '217': 4.00, '175': 4.00, '317': 17.00, '224': 5.00, '136': 8.00,
+        '287': 15.00, '303': 10.00, '179': 4.00, '187': 5.00, '186': 5.00,
+        '298': 12.00, '328': 27.00, '240': 8.00, '143': 7.00, '184': 4.00,
+        '85': 7.00, '95': 10.00, '234': 6.00, '181': 4.00, '211': 8.00,
+        '154': 7.00, '308': 12.00, '172': 4.00, '196': 7.00, '91': 7.00,
+        '252': 14.00, '269': 15.00, '227': 17.00, '302': 10.00, '299': 12.00,
+        '321': 20.00, '106': 25.00, '232': 7.00, '134': 10.00, '267': 15.00,
+        '334': 37.00, '294': 17.00, '189': 5.00, '174': 4.00, '273': 10.00,
+        '137': 8.00, '248': 12.00, '192': 8.00, '254': 14.00, '215': 4.00,
+        '285': 17.00, '283': 17.00, '169': 5.00, '288': 15.00, '245': 12.00,
+        '286': 15.00, '220': 4.00, '332': 33.00, '261': 22.00, '315': 15.00,
+        '195': 14.00, '194': 6.00, '150': 7.00, '274': 18.00, '222': 4.00,
+        '157': 5.00, '228': 6.00, '152': 7.00, '320': 17.00, '306': 12.00,
+        '140': 8.00, '180': 4.00, '219': 4.00, '243': 10.00, '116': 7.00,
+        '113': 7.00, '291': 15.00, '296': 17.00, '223': 5.00, '326': 25.00,
+        '258': 16.00, '230': 6.00, '251': 15.00, '265': 9.00, '289': 16.00,
+        '310': 13.00, '278': 18.00, '138': 8.00, '318': 17.00, '264': 17.00,
+        '314': 16.00, '312': 14.00, '307': 12.00, '316': 16.00, '290': 15.00,
+        '176': 5.00, '253': 14.00, '309': 14.00, '124': 8.00, '121': 8.00,
+        '182': 5.00, '163': 5.00, '324': 20.00, '276': 17.00, '111': 7.00,
+        '185': 4.00, '110': 7.00, '190': 6.00, '260': 18.00, '299b': 13.00,
+        '327': 25.00, '147': 7.00, '304': 10.00, '173': 4.00, '236': 5.00,
+        '141': 7.00, '249': 12.00, '144': 7.00, '145': 7.00, '275': 18.00,
+        '262': 20.00, '202': 10.00, '148': 7.00, '142': 7.00, '209': 8.00,
+        '117': 7.00, '158': 6.00, '322': 25.00, '105': 20.00, '338': 45.00,
+        '241': 10.00, '161': 5.00, '233': 7.00, '200': 8.00, '118': 7.00,
+        '340': 40.00, '285b': 17.00, '146': 8.00, '271': 12.00, '268': 15.00,
+        '325': 20.00, '270': 12.00, '279': 18.00, '199': 7.00, '198': 7.00,
+        '191': 7.00, '149': 7.00, '212': 8.00, '120': 7.00, '123': 8.00,
+        '95b': 8.00, '305': 10.00, '207': 8.00, '206': 8.00, '205': 10.00,
+        '208': 8.00, 'P-4': 10.00
+      }
+    },
+
+    base234: {
+      nombre: 'Base Maneiro / Costa Azul / Ratán / Río',
+      municipio: 'Maneiro',
+      precios: {
+        '170': 5.00, '102': 20.00, '133': 6.00, '284': 22.00, '263': 17.00,
+        '128': 5.00, '135': 5.00, '256': 17.00, '238': 8.00, '237': 7.00,
+        '160': 5.00, '155': 4.00, '235': 5.00, '167': 5.00, '156': 6.00,
+        '165': 5.00, '335': 45.00, '337': 50.00, '330': 35.00, '281': 22.00,
+        '300': 18.00, '313': 18.00, 'C-7': 4.00, 'C-8': 4.00, 'C-14': 5.00,
+        'C-6': 4.00, 'C-2': 4.00, 'C-3': 4.00, 'C-4': 4.00, 'C-1': 4.00,
+        '217': 7.00, '175': 6.00, '317': 22.00, '224': 8.00, '136': 5.00,
+        '287': 20.00, '303': 15.00, '179': 6.00, '187': 8.00, '186': 8.00,
+        '298': 18.00, '328': 32.00, '240': 9.00, '143': 4.00, '184': 7.00,
+        '85': 10.00, '95': 15.00, '234': 8.00, '181': 7.00, '211': 12.00,
+        '154': 4.00, '308': 17.00, '172': 6.00, '196': 10.00, '91': 4.00,
+        '252': 16.00, '269': 17.00, '227': 12.00, '302': 15.00, '299': 18.00,
+        '321': 25.00, '106': 28.00, '232': 10.00, '134': 7.00, '267': 17.00,
+        '334': 42.00, '294': 22.00, '189': 8.00, '174': 6.00, '273': 12.00,
+        '137': 5.00, '248': 14.00, '192': 12.00, '254': 17.00, '215': 7.00,
+        '285': 22.00, '283': 22.00, '169': 5.00, '288': 20.00, '245': 14.00,
+        '286': 20.00, '220': 7.00, '332': 38.00, '261': 25.00, '315': 20.00,
+        '195': 18.00, '194': 9.00, '150': 4.00, '274': 20.00, '222': 7.00,
+        '157': 5.00, '228': 8.00, '152': 4.00, '320': 22.00, '306': 17.00,
+        '140': 5.00, '180': 7.00, '219': 7.00, '243': 12.00, '116': 5.00,
+        '113': 4.00, '291': 20.00, '296': 22.00, '223': 8.00, '326': 30.00,
+        '258': 18.00, '230': 10.00, '251': 17.00, '265': 17.00, '289': 20.00,
+        '310': 18.00, '278': 20.00, '138': 5.00, '318': 22.00, '264': 17.00,
+        '314': 20.00, '312': 18.00, '307': 17.00, '316': 20.00, '290': 20.00,
+        '176': 5.00, '253': 16.00, '309': 18.00, '124': 6.00, '121': 6.00,
+        '182': 7.00, '163': 5.00, '324': 25.00, '276': 18.00, '111': 4.00,
+        '185': 7.00, '110': 4.00, '190': 9.00, '260': 20.00, '299b': 18.00,
+        '327': 30.00, '147': 4.00, '304': 15.00, '173': 6.00, '236': 7.00,
+        '141': 4.00, '249': 15.00, '144': 4.00, '145': 4.00, '275': 20.00,
+        '262': 22.00, '202': 15.00, '148': 4.00, '142': 4.00, '209': 12.00,
+        '117': 5.00, '158': 5.00, '322': 30.00, '105': 25.00, '338': 50.00,
+        '241': 10.00, '161': 5.00, '233': 10.00, '200': 12.00, '118': 5.00,
+        '340': 45.00, '285b': 22.00, '146': 4.00, '271': 14.00, '268': 16.00,
+        '325': 25.00, '270': 14.00, '279': 25.00, '199': 10.00, '198': 10.00,
+        '191': 10.00, '149': 4.00, '212': 12.00, '120': 5.00, '123': 6.00,
+        '95b': 9.00, '305': 15.00, '207': 12.00, '206': 12.00, '205': 15.00,
+        '208': 12.00, 'P-4': 15.00
+      }
+    },
+
+    base6: {
+      nombre: 'Base 6 — Río Terranova (Mariño)',
+      municipio: 'Mariño',
+      precios: {
+        '170': 4.00, '102': 15.00, '133': 8.00, '284': 17.00, '263': 17.00,
+        '128': 8.00, '135': 7.00, '256': 17.00, '238': 10.00, '237': 7.00,
+        '160': 4.00, '155': 5.00, '235': 4.00, '167': 4.00, '156': 5.00,
+        '165': 4.00, '335': 40.00, '337': 45.00, '330': 30.00, '281': 17.00,
+        '300': 12.00, '313': 14.00, 'C-7': 5.00, 'C-8': 5.00, 'C-14': 4.00,
+        'C-6': 5.00, 'C-2': 5.00, 'C-3': 5.00, 'C-4': 5.00, 'C-1': 5.00,
+        '217': 5.00, '175': 4.00, '317': 17.00, '224': 7.00, '136': 7.00,
+        '287': 15.00, '303': 10.00, '179': 4.00, '187': 5.00, '186': 5.00,
+        '298': 12.00, '328': 27.00, '240': 12.00, '143': 6.00, '184': 4.00,
+        '85': 10.00, '95': 10.00, '234': 8.00, '181': 4.00, '211': 8.00,
+        '154': 5.00, '308': 12.00, '172': 4.00, '196': 7.00, '91': 6.00,
+        '252': 16.00, '269': 17.00, '227': 8.00, '302': 10.00, '299': 12.00,
+        '321': 20.00, '106': 23.00, '232': 10.00, '134': 10.00, '267': 17.00,
+        '334': 37.00, '294': 17.00, '189': 5.00, '174': 4.00, '273': 12.00,
+        '137': 7.00, '248': 14.00, '192': 8.00, '254': 17.00, '215': 5.00,
+        '285': 17.00, '283': 17.00, '169': 4.00, '288': 15.00, '245': 14.00,
+        '286': 15.00, '220': 5.00, '332': 33.00, '261': 25.00, '315': 15.00,
+        '195': 14.00, '194': 6.00, '150': 5.00, '274': 20.00, '222': 5.00,
+        '157': 4.00, '228': 8.00, '152': 5.00, '320': 17.00, '306': 12.00,
+        '140': 7.00, '180': 4.00, '219': 5.00, '243': 12.00, '116': 6.00,
+        '113': 5.00, '291': 15.00, '296': 17.00, '223': 6.00, '326': 25.00,
+        '258': 18.00, '230': 10.00, '251': 17.00, '265': 10.00, '289': 16.00,
+        '310': 13.00, '278': 20.00, '138': 7.00, '318': 17.00, '264': 17.00,
+        '314': 16.00, '312': 14.00, '307': 12.00, '316': 16.00, '290': 16.00,
+        '176': 4.00, '253': 16.00, '309': 14.00, '124': 8.00, '121': 7.00,
+        '182': 5.00, '163': 4.00, '324': 20.00, '276': 18.00, '111': 5.00,
+        '185': 4.00, '110': 5.00, '190': 6.00, '260': 20.00, '299b': 13.00,
+        '327': 25.00, '147': 5.00, '304': 10.00, '173': 4.00, '236': 7.00,
+        '141': 6.00, '249': 15.00, '144': 5.00, '145': 5.00, '275': 20.00,
+        '262': 22.00, '202': 10.00, '148': 5.00, '142': 6.00, '209': 8.00,
+        '117': 6.00, '158': 5.00, '322': 25.00, '105': 20.00, '338': 45.00,
+        '241': 14.00, '161': 4.00, '233': 10.00, '200': 8.00, '118': 6.00,
+        '340': 40.00, '285b': 17.00, '146': 6.00, '271': 14.00, '268': 16.00,
+        '325': 20.00, '270': 14.00, '279': 20.00, '199': 7.00, '198': 7.00,
+        '191': 7.00, '149': 5.00, '212': 8.00, '120': 6.00, '123': 7.00,
+        '95b': 6.00, '305': 10.00, '207': 8.00, '206': 8.00, '205': 10.00,
+        '208': 8.00, 'P-4': 10.00
+      }
+    },
+
+    base10: {
+      nombre: 'Base 10 — Nova Sabanamar (Mariño)',
+      municipio: 'Mariño',
+      precios: {
+        '170': 4.00, '102': 18.00, '133': 7.00, '284': 20.00, '263': 18.00,
+        '128': 7.00, '135': 6.00, '256': 18.00, '238': 8.00, '237': 6.00,
+        '160': 4.00, '155': 5.00, '235': 4.00, '167': 4.00, '156': 5.00,
+        '165': 4.00, '335': 42.00, '337': 48.00, '330': 32.00, '281': 18.00,
+        '300': 14.00, '313': 16.00, 'C-7': 5.00, 'C-8': 5.00, 'C-14': 4.00,
+        'C-6': 5.00, 'C-2': 5.00, 'C-3': 5.00, 'C-4': 5.00, 'C-1': 5.00,
+        '217': 5.00, '175': 4.00, '317': 18.00, '224': 8.00, '136': 6.00,
+        '287': 17.00, '303': 12.00, '179': 4.00, '187': 6.00, '186': 6.00,
+        '298': 14.00, '328': 30.00, '240': 10.00, '143': 5.00, '184': 5.00,
+        '85': 9.00, '95': 12.00, '234': 8.00, '181': 5.00, '211': 10.00,
+        '154': 5.00, '308': 14.00, '172': 5.00, '196': 8.00, '91': 5.00,
+        '252': 17.00, '269': 18.00, '227': 9.00, '302': 12.00, '299': 14.00,
+        '321': 22.00, '106': 25.00, '232': 10.00, '134': 9.00, '267': 18.00,
+        '334': 40.00, '294': 18.00, '189': 6.00, '174': 4.00, '273': 14.00,
+        '137': 6.00, '248': 15.00, '192': 10.00, '254': 18.00, '215': 5.00,
+        '285': 18.00, '283': 18.00, '169': 4.00, '288': 16.00, '245': 15.00,
+        '286': 16.00, '220': 5.00, '332': 35.00, '261': 27.00, '315': 18.00,
+        '195': 16.00, '194': 7.00, '150': 5.00, '274': 22.00, '222': 5.00,
+        '157': 4.00, '228': 8.00, '152': 5.00, '320': 18.00, '306': 14.00,
+        '140': 6.00, '180': 5.00, '219': 5.00, '243': 14.00, '116': 5.00,
+        '113': 5.00, '291': 16.00, '296': 18.00, '223': 6.00, '326': 27.00,
+        '258': 20.00, '230': 10.00, '251': 18.00, '265': 12.00, '289': 18.00,
+        '310': 14.00, '278': 22.00, '138': 6.00, '318': 18.00, '264': 18.00,
+        '314': 17.00, '312': 15.00, '307': 14.00, '316': 17.00, '290': 17.00,
+        '176': 4.00, '253': 17.00, '309': 15.00, '124': 7.00, '121': 7.00,
+        '182': 6.00, '163': 4.00, '324': 22.00, '276': 20.00, '111': 5.00,
+        '185': 5.00, '110': 5.00, '190': 7.00, '260': 22.00, '299b': 14.00,
+        '327': 27.00, '147': 5.00, '304': 12.00, '173': 5.00, '236': 8.00,
+        '141': 5.00, '249': 16.00, '144': 5.00, '145': 5.00, '275': 22.00,
+        '262': 25.00, '202': 12.00, '148': 5.00, '142': 5.00, '209': 10.00,
+        '117': 5.00, '158': 4.00, '322': 27.00, '105': 22.00, '338': 48.00,
+        '241': 12.00, '161': 4.00, '233': 10.00, '200': 10.00, '118': 6.00,
+        '340': 42.00, '285b': 18.00, '146': 5.00, '271': 15.00, '268': 17.00,
+        '325': 22.00, '270': 15.00, '279': 22.00, '199': 8.00, '198': 8.00,
+        '191': 8.00, '149': 5.00, '212': 10.00, '120': 6.00, '123': 6.00,
+        '95b': 7.00, '305': 12.00, '207': 10.00, '206': 10.00, '205': 12.00,
+        '208': 10.00, 'P-4': 12.00
+      }
+    }
+  },
+
+  // ============================================================
+  // CLAVES DE OPERACIÓN (radio)
+  // ============================================================
+  clavesOperacion: {
+    'F-12': 'FISCAL',
+    '00': 'CENTRAL',
+    '10.4': 'COPIADO',
+    'R / RPT': 'REPETIR',
+    '30-30': 'TAXI INFORMAL',
+    '01': 'UBICACIÓN/SITIO',
+    '02': 'UNIDAD/VEHÍCULO',
+    '03': 'BAÑO',
+    '04': 'INICIO DE JORNADA',
+    '05': 'FIN DE JORNADA',
+    '06': 'CLIENTE PERSONAL',
+    '07': 'CLIENTE/USUARIO',
+    '08': 'SERVICIO DE CALLE',
+    '09': 'SERVICIO DE CENTRAL',
+    '10': 'PASAJERO A BORDO',
+    '11': 'HOMBRE',
+    '12': 'MUJER',
+    '13': 'NOMBRE',
+    '14': 'DISCULPA',
+    '15': 'INTERROGATIVO',
+    '16': 'DEJAR SIN EFECTO',
+    '17': 'MANTÉNGASE ALERTA',
+    '18': 'SIN SALDO',
+    '19': 'LLAMADA TELEFÓNICA',
+    '20': 'ME DIRIJO A...',
+    '21': 'SALIENDO DE ROTACIÓN',
+    '22': 'HORA',
+    '23': 'COSTO DE SERVICIO',
+    '24': 'HACER/HACIENDO ESPERA',
+    '25': 'PERMISO PARA HABLAR',
+    '26': 'COMER/DESCANSO',
+    '27': 'PAGO DE FRANQUICIA',
+    '28': 'FACTURA',
+    '29': 'SALUDO/DESPEDIDA',
+    '30': 'BUEN PROVECHO',
+    '31': 'EFECTUAR/REALIZAR',
+    '32': 'RESPETO EN FRECUENCIA',
+    '33': 'SILENCIO EN FRECUENCIA',
+    '34': 'SUSPENDIDO',
+    '35': 'POR FAVOR',
+    '36': 'ACOMPAÑAR',
+    '37': 'POSITIVO',
+    '38': 'NEGATIVO',
+    '39': 'OFICINA',
+    '40': 'CASA/HOGAR',
+    '41': 'INF. PARA TODOS',
+    '42': 'INFORME/INDIQUE',
+    '43': 'PERSONA MOLESTA',
+    '44': 'PERSONA SOSPECHOSA',
+    '45': 'BORRACHO',
+    '46': 'ENFERMO',
+    '47': 'EN PROBLEMAS',
+    '48': 'APOYO/AYUDA',
+    '49': 'GRACIAS',
+    '50': 'SITUACIÓN TRANQUILA',
+    '51': 'E/S (COMBUSTIBLE)',
+    '52': 'VISUALIZAR',
+    '53': 'PERSONAL DE LA BASE',
+    '54': 'VIGILANTE',
+    '55': 'GRUPO FAMILIAR',
+    '56': 'REGRESO/RETORNO',
+    '57': 'RETÍRESE DEL SITIO',
+    '58': 'ENCOMIENDA',
+    '59': 'GUARDIA/TURNO',
+    '60': 'COMPAÑERO/A',
+    '61': 'DIRECTIVO',
+    '62': 'FAMILIAR',
+    '63': 'MADRE/PADRE',
+    '64': 'HIJO/A',
+    '65': 'ESPOSO/A',
+    '66': 'HERMANO/A',
+    '67': 'DAMA DE COMPAÑÍA',
+    '68': 'HOMOSEXUAL',
+    '69': 'PERSONA 3° EDAD',
+    '70': 'CULMINANDO SERVICIO',
+    '71': 'FUERA DE LA UNIDAD',
+    '72': 'RETRASO',
+    '73': 'LLUVIA',
+    '74': 'PRECAUCIÓN',
+    '75': 'TRÁFICO/CONGESTIÓN',
+    '76': 'EXCESO DE VELOCIDAD',
+    '77': 'EMERGENCIA',
+    '78': 'ACCIDENTE DE TRÁNSITO',
+    '79': 'CHOQUE',
+    '80': 'HERIDO',
+    '81': 'MUERTO',
+    '82': 'ATRACO',
+    '83': 'SECUESTRO',
+    '85': 'HOSPITAL/CLÍNICA',
+    '86': 'CEMENTERIO',
+    '87': 'IGLESIA',
+    '88': 'PLAZA',
+    '89': 'BANCO',
+    '90': 'CENTRO COMERCIAL',
+    '91': 'RESTAURANTE',
+    '92': 'PLAYA',
+    '93': 'CLUB NOCTURNO',
+    '94': 'HOTEL',
+    '95': 'RESIDENCIA/URB.',
+    '97': 'UNIDAD DISPONIBLE',
+    '98': 'UNIDAD OCUPADA',
+    '99': 'UNIDAD OPERATIVA',
+    '100': 'UNIDAD ACCIDENTADA',
+    'P-1': 'GUARDIA NACIONAL',
+    'P-2': 'POLICÍA NACIONAL',
+    'P-3': 'POLICÍA MUNICIPAL',
+    'P-4': 'TRÁNSITO',
+    'P-5': 'CICPC',
+    'P-6': 'PROTECCIÓN CIVIL',
+    'P-7': 'BOMBEROS'
+  },
+
+  // ============================================================
+  // MOTOR DE BÚSQUEDA
+  // ============================================================
+
+  // Normaliza texto: minúsculas, sin tildes, sin signos
+  normalizar(texto) {
+    return String(texto).toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[.,!?¿¡]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  },
+
+  // Busca un destino por texto libre (nombre, alias, clave)
+  buscarDestino(texto) {
+    const t = this.normalizar(texto);
+    if (!t) return null;
+
+    // 1) Coincidencia exacta por clave
+    for (const [clave, info] of Object.entries(this.destinos)) {
+      if (this.normalizar(clave) === t) return { clave, ...info };
+    }
+
+    // 2) Coincidencia exacta por nombre o alias
+    for (const [clave, info] of Object.entries(this.destinos)) {
+      if (this.normalizar(info.nombre) === t) return { clave, ...info };
+      if (info.alias?.some(a => this.normalizar(a) === t)) return { clave, ...info };
+    }
+
+    // 3) Coincidencia parcial (contiene)
+    for (const [clave, info] of Object.entries(this.destinos)) {
+      if (this.normalizar(info.nombre).includes(t) || t.includes(this.normalizar(info.nombre))) {
+        return { clave, ...info };
+      }
+      if (info.alias?.some(a => {
+        const na = this.normalizar(a);
+        return na.includes(t) || t.includes(na);
+      })) return { clave, ...info };
+    }
+
+    return null;
+  },
+
+  // Busca una clave de operación
+  buscarClaveOperacion(texto) {
+    const t = this.normalizar(texto).replace(/^clave\s+/, '');
+    if (this.clavesOperacion[t]) return this.clavesOperacion[t];
+    // Búsqueda inversa: por descripción
+    for (const [clave, desc] of Object.entries(this.clavesOperacion)) {
+      if (this.normalizar(desc).includes(t)) return { clave, descripcion: desc };
+    }
+    return null;
+  },
+
+  // Obtiene la tarifa de una base específica hacia un destino
+  calcularTarifa(base, claveDestino) {
+    return this.tarifas[base]?.precios?.[claveDestino] ?? null;
+  }
+};
+
+// Exponer globalmente
+window.DATABASE = DATABASE;
+console.log('📊 DATABASE cargada:', 
+  Object.keys(DATABASE.destinos).length, 'destinos,',
+  Object.keys(DATABASE.tarifas.base1.precios).length, 'precios base1,',
+  Object.keys(DATABASE.clavesOperacion).length, 'claves operación'
+);
