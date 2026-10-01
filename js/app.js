@@ -498,6 +498,11 @@ ui.btnNotifications.addEventListener('click', () => {
   abrirModal('modalNotif');
 });
 
+// ============ ACERCA DE / COLABORAR ============
+$('btnAbout')?.addEventListener('click', () => {
+  abrirModal('modalAbout');
+});
+
 // ============ PERFIL ============
 function cargarPerfilEnModal() {
   $('inputNombre').value = state.perfil.nombre || '';
@@ -556,14 +561,15 @@ $('btnLocate')?.addEventListener('click', () => {
     return;
   }
   agregarNotificacion('📍 Buscando ubicación...');
+  if (navigator.vibrate) navigator.vibrate(30);
   navigator.geolocation.getCurrentPosition(
     (pos) => {
       const { latitude, longitude } = pos.coords;
-      agregarNotificacion(`📍 Ubicación: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`);
-      if (window.mapaModule?.centrarEn) {
-        window.mapaModule.centrarEn(latitude, longitude);
+      // Usar centrarSinZoom: solo desplaza el mapa, NO agranda el zoom
+      if (window.mapaModule?.centrarSinZoom) {
+        window.mapaModule.centrarSinZoom(latitude, longitude);
       }
-      hablar('Ubicación actualizada');
+      agregarNotificacion('📍 Ubicación actualizada');
     },
     (err) => {
       agregarNotificacion('❌ Error GPS: ' + err.message);

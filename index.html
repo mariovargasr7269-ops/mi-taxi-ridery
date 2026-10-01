@@ -31,6 +31,9 @@
         <button class="icon-btn" id="btnNotifications" aria-label="Notificaciones">
           🔔<span class="badge" id="notifBadge">0</span>
         </button>
+        <button class="icon-btn" id="btnAbout" aria-label="Acerca de y colaborar" title="Acerca de / Colaborar">
+          🤝
+        </button>
       </div>
       <div class="header-center">
         <h1 class="app-title">
@@ -254,6 +257,76 @@
         </div>
         <div class="zone-edit-hint" id="zoneEditHint">
           💡 <strong>Tip:</strong> mantén presionado un destino rápido para editarlo o quitarlo.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ACERCA DE & COLABORAR -->
+  <div class="modal-overlay" id="modalAbout">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>🤝 Acerca de & Colaborar</h2>
+        <button class="modal-close" data-close="modalAbout">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="about-logo">
+          <div class="about-logo-icon">🚕</div>
+          <div>
+            <div class="about-title">Mi Taxi Ridery</div>
+            <div class="about-version">v3.1 · Isla de Margarita, Venezuela</div>
+          </div>
+        </div>
+
+        <p class="about-desc">
+          App de radio, tarifas y control de jornada para taxistas de Margarita.
+          Funciona offline, con base de datos de 976 destinos y claves de operación.
+        </p>
+
+        <div class="about-credit">
+          <div class="about-credit-label">Hecha por</div>
+          <div class="about-credit-name">Mario Vargas Rojas</div>
+          <div class="about-credit-role">Taxista · Desarrollador · Isla de Margarita 🇻🇪</div>
+        </div>
+
+        <div class="about-section-title">¿Quieres colaborar?</div>
+        <p class="about-collab-desc">
+          Esta app es de código abierto. Si quieres ayudar a escalarla, mejorarla,
+          añadir funciones o adaptarla a otras zonas, escríbeme:
+        </p>
+
+        <a href="https://wa.me/584248620627?text=Hola%20Mario%2C%20vi%20Mi%20Taxi%20Ridery%20y%20quiero%20colaborar" 
+           class="about-btn about-btn-wa" target="_blank" rel="noopener">
+          <span class="about-btn-icon">💬</span>
+          <div>
+            <div class="about-btn-title">WhatsApp</div>
+            <div class="about-btn-sub">0424 862 0627</div>
+          </div>
+        </a>
+
+        <a href="https://github.com/mariovargasr7269-ops/mi-taxi-ridery" 
+           class="about-btn about-btn-gh" target="_blank" rel="noopener">
+          <span class="about-btn-icon">🐙</span>
+          <div>
+            <div class="about-btn-title">GitHub</div>
+            <div class="about-btn-sub">Código fuente del proyecto</div>
+          </div>
+        </a>
+
+        <div class="about-tech">
+          <div class="about-tech-title">Tecnologías</div>
+          <div class="about-tech-list">
+            <span class="tech-tag">PWA</span>
+            <span class="tech-tag">Leaflet</span>
+            <span class="tech-tag">OpenStreetMap</span>
+            <span class="tech-tag">Web Speech API</span>
+            <span class="tech-tag">IndexedDB</span>
+            <span class="tech-tag">Vanilla JS</span>
+          </div>
+        </div>
+
+        <div class="about-footer">
+          Hecho con 💚 en la Isla de Margarita · 2026
         </div>
       </div>
     </div>

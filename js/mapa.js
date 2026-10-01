@@ -143,20 +143,32 @@
     return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(Math.max(0, 1 - x)));
   }
 
-  // ============ CENTRAR EN UNA POSICIÓN ============
+  // ============ CENTRAR EN UNA POSICIÓN (con zoom) ============
   function centrarEn(lat, lng, zoom) {
     if (!mapa) return;
     mapa.setView([lat, lng], zoom || 16, { animate: true });
     if (markerDriver) markerDriver.setLatLng([lat, lng]);
   }
 
-  // ============ CENTRAR EN UBICACIÓN ACTUAL ============
+  // ============ CENTRAR SIN ZOOM (solo desplaza el mapa) ============
+  // Mantiene el nivel de zoom actual, solo mueve el centro
+  function centrarSinZoom(lat, lng) {
+    if (!mapa) return;
+    const zoomActual = mapa.getZoom();
+    mapa.panTo([lat, lng], { animate: true, duration: 0.8 });
+    if (markerDriver) markerDriver.setLatLng([lat, lng]);
+    ultimaPosicion = { lat, lng };
+    return zoomActual;
+  }
+
+  // ============ CENTRAR EN UBICACIÓN ACTUAL (sin zoom) ============
   function centrarEnMiUbicacion() {
     if (ultimaPosicion) {
-      centrarEn(ultimaPosicion.lat, ultimaPosicion.lng, 16);
+      // Sin zoom: solo desplaza el mapa al carro
+      centrarSinZoom(ultimaPosicion.lat, ultimaPosicion.lng);
     } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (pos) => centrarEn(pos.coords.latitude, pos.coords.longitude, 16),
+        (pos) => centrarSinZoom(pos.coords.latitude, pos.coords.longitude),
         () => {
           if (window.agregarNotificacion) window.agregarNotificacion('❌ No se pudo obtener tu ubicación');
         },
@@ -203,6 +215,7 @@
   window.mapaModule = {
     init,
     centrarEn,
+    centrarSinZoom,
     centrarEnMiUbicacion,
     marcarDestino,
     limpiarDestino,

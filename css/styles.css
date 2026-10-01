@@ -112,7 +112,7 @@ body {
 
 .app-title {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1;
   letter-spacing: 1px;
 }
@@ -179,8 +179,8 @@ body[data-theme="light"] .base-selector select option {
 
 /* ============ MAPA ============ */
 .map-section {
-  flex: 0 0 22vh;
-  min-height: 150px;
+  flex: 0 0 30vh;
+  min-height: 180px;
   position: relative;
   overflow: hidden;
 }
@@ -396,14 +396,14 @@ body[data-theme="light"] .timer-display {
 .btn-jornada {
   width: 100%;
   margin-top: 8px;
-  padding: 8px 6px;
+  padding: 9px 6px;
   background: linear-gradient(135deg, var(--neon-green), #0f766e);
   border: none;
   border-radius: 8px;
   color: #001a10;
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
   box-shadow: 0 0 12px rgba(94, 234, 212, 0.5);
   transition: all 0.2s;
@@ -460,33 +460,45 @@ body[data-theme="light"] .timer-display {
   font-weight: 700;
 }
 
-/* ============ BOTONES RÁPIDOS ============ */
+/* ============ BOTONES RÁPIDOS (tira horizontal deslizable) ============ */
 .quick-buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
+  display: flex;
+  flex-direction: row;
+  gap: 7px;
   padding: 8px 10px;
-  overflow-y: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   flex: 0 0 auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.quick-buttons::-webkit-scrollbar {
+  display: none;
 }
 
 .quick-btn {
   background: var(--bg-card);
   border: 1.5px solid var(--border-glow);
-  border-radius: 10px;
-  padding: 6px 3px;
+  border-radius: 12px;
+  padding: 8px 6px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1px;
+  gap: 2px;
   cursor: pointer;
   transition: all 0.2s;
   position: relative;
   overflow: hidden;
   color: var(--text-primary);
   font-family: var(--font-body);
-  min-height: 58px;
+  min-width: 72px;
+  max-width: 72px;
+  min-height: 68px;
   justify-content: center;
+  flex-shrink: 0;
+  scroll-snap-align: start;
 }
 
 .quick-btn::before {
@@ -513,15 +525,19 @@ body[data-theme="light"] .timer-display {
 }
 
 .qb-name {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   text-align: center;
   line-height: 1.1;
   letter-spacing: 0.2px;
+  max-width: 64px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .qb-clave {
-  font-size: 9px;
+  font-size: 10px;
   color: var(--neon-green);
   font-family: var(--font-display);
   letter-spacing: 0.5px;
@@ -730,13 +746,13 @@ body[data-theme="light"] .timer-display {
 /* ============ ACEPTAR CARRERA ============ */
 .accept-ride-btn {
   margin: 4px 10px 6px;
-  padding: 9px;
+  padding: 11px;
   background: linear-gradient(135deg, var(--neon-green), #14b8a6);
   border: none;
   border-radius: 10px;
   color: #001a10;
   font-family: var(--font-display);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 1px;
   cursor: pointer;
@@ -765,12 +781,12 @@ body[data-theme="light"] .timer-display {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 3px;
   color: var(--text-secondary);
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 6px 8px;
   transition: all 0.2s;
   border-radius: 8px;
 }
@@ -781,13 +797,13 @@ body[data-theme="light"] .timer-display {
 }
 
 .nav-icon {
-  font-size: 20px;
+  font-size: 22px;
   line-height: 1;
 }
 
 .nav-label {
   font-weight: 600;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.3px;
 }
 
@@ -1209,6 +1225,179 @@ body[data-theme="light"] .modal-input::placeholder {
   transform: scale(0.97);
 }
 
+/* ============ MODAL ACERCA DE / COLABORAR ============ */
+.about-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-glow);
+  margin-bottom: 14px;
+}
+
+.about-logo-icon {
+  font-size: 36px;
+  filter: drop-shadow(0 0 8px var(--neon-gold));
+}
+
+.about-title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--neon-green);
+  letter-spacing: 1px;
+}
+
+.about-version {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.about-desc {
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.about-credit {
+  background: linear-gradient(135deg, rgba(252, 211, 77, 0.1), rgba(94, 234, 212, 0.08));
+  border: 1.5px solid var(--neon-gold);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.about-credit-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.about-credit-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--neon-gold);
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+.about-credit-role {
+  font-size: 11px;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+.about-section-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--neon-green);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.about-collab-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.about-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  margin-bottom: 8px;
+  transition: all 0.2s;
+  border: 1.5px solid transparent;
+}
+
+.about-btn:active {
+  transform: scale(0.98);
+}
+
+.about-btn-wa {
+  background: linear-gradient(135deg, #25d366, #128c4a);
+  color: #fff;
+}
+
+.about-btn-gh {
+  background: linear-gradient(135deg, #24292e, #1a1e22);
+  color: #fff;
+  border-color: rgba(94, 234, 212, 0.3);
+}
+
+body[data-theme="light"] .about-btn-gh {
+  background: linear-gradient(135deg, #f6f8fa, #e6e9ec);
+  color: #24292e;
+  border-color: rgba(13, 148, 136, 0.3);
+}
+
+.about-btn-icon {
+  font-size: 24px;
+}
+
+.about-btn-title {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.about-btn-sub {
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+.about-tech {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-glow);
+}
+
+.about-tech-title {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.about-tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tech-tag {
+  font-size: 10px;
+  background: rgba(94, 234, 212, 0.12);
+  color: var(--neon-green);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+body[data-theme="light"] .tech-tag {
+  background: rgba(13, 148, 136, 0.12);
+}
+
+.about-footer {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 10px;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
+}
+
 /* Notificaciones item */
 .notif-item {
   padding: 10px 12px;
@@ -1244,31 +1433,34 @@ html, body, #app {
 
 /* Pantallas chicas (iPhone SE, Android viejos) */
 @media (max-height: 640px) {
-  .map-section { flex: 0 0 16vh; min-height: 110px; }
-  .voice-button { width: 85px; height: 85px; }
-  .voice-mic { font-size: 26px; }
+  .map-section { flex: 0 0 22vh; min-height: 130px; }
+  .voice-button { width: 78px; height: 78px; }
+  .voice-mic { font-size: 24px; }
   .voice-label { font-size: 9px; }
-  .fare-amount { font-size: 20px; }
-  .timer-value { font-size: 16px; }
-  .timer-ring { width: 60px; height: 60px; }
-  .quick-btn { min-height: 44px; padding: 4px 2px; }
-  .qb-icon { font-size: 15px; }
-  .qb-name { font-size: 9px; }
-  .qb-clave { font-size: 8px; }
+  .fare-amount { font-size: 22px; }
+  .timer-value { font-size: 18px; }
+  .timer-ring { width: 58px; height: 58px; }
+  .quick-btn { min-width: 66px; max-width: 66px; min-height: 60px; padding: 6px 4px; }
+  .qb-icon { font-size: 16px; }
+  .qb-name { font-size: 10px; max-width: 58px; }
+  .qb-clave { font-size: 9px; }
   .top-panels { gap: 6px; padding: 6px 8px; }
-  .app-title { font-size: 13px; }
-  .accept-ride-btn { font-size: 11px; padding: 7px; }
+  .app-title { font-size: 15px; }
+  .accept-ride-btn { font-size: 12px; padding: 8px; }
+  .nav-btn { font-size: 11px; padding: 4px 6px; }
+  .nav-icon { font-size: 18px; }
 }
 
 /* Pantallas muy chicas */
 @media (max-height: 560px) {
-  .map-section { flex: 0 0 12vh; min-height: 90px; }
-  .voice-button { width: 72px; height: 72px; }
+  .map-section { flex: 0 0 18vh; min-height: 110px; }
+  .voice-button { width: 70px; height: 70px; }
   .voice-mic { font-size: 22px; }
   .voice-title { font-size: 9px; }
   .top-panels { gap: 5px; padding: 5px 6px; }
+  .quick-btn { min-width: 60px; max-width: 60px; min-height: 54px; }
   .trip-details { padding: 6px 10px; }
-  .trip-body { font-size: 10px; }
+  .trip-body { font-size: 11px; }
 }
 
 /* Pantallas grandes (tablets) */
