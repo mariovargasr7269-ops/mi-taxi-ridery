@@ -2,38 +2,23 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#0a1512">
-  
-  <!-- SEO y redes sociales -->
   <title>Mi Taxi Ridery — Asistente de Radio y Gestor de Jornada</title>
   <meta name="description" content="🚕 App de radio, tarifas y control de jornada para taxistas de Margarita. Funciona offline.">
-  <meta name="author" content="Mi Taxi Ridery">
-  
-  <!-- Open Graph (para WhatsApp / Facebook) -->
   <meta property="og:title" content="Mi Taxi Ridery 🚕">
   <meta property="og:description" content="Asistente de radio y gestor de jornada para taxistas">
-  <meta property="og:type" content="website">
   <meta property="og:image" content="assets/icons/icon-512.png">
-  <meta property="og:url" content="https://mariovargasr7269-ops.github.io/mi-taxi-ridery/">
-  
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Mi Taxi Ridery 🚕">
-  <meta name="twitter:description" content="Asistente de radio y gestor de jornada para taxistas">
-  <meta name="twitter:image" content="assets/icons/icon-512.png">
-  
-  <!-- PWA -->
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/icon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon-512.png">
   <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
-  
-  <!-- Fuentes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Estilos -->
+  <!-- Leaflet (mapa) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body data-theme="dark">
@@ -44,7 +29,7 @@
     <header class="header">
       <div class="header-left">
         <button class="icon-btn" id="btnNotifications" aria-label="Notificaciones">
-          🔔<span class="badge" id="notifBadge">3</span>
+          🔔<span class="badge" id="notifBadge">0</span>
         </button>
       </div>
       <div class="header-center">
@@ -55,9 +40,9 @@
         <div class="logo-car">🚕</div>
       </div>
       <div class="header-right">
-        <button class="icon-btn" id="btnTheme" aria-label="Cambiar tema" title="Cambiar tema día/noche">🌙</button>
+        <button class="icon-btn" id="btnTheme" aria-label="Cambiar tema" title="Tema día/noche">🌙</button>
         <button class="icon-btn" id="btnProfile" aria-label="Perfil">
-          <span class="avatar">👤</span>
+          <span class="avatar" id="avatarEmoji">👤</span>
         </button>
       </div>
     </header>
@@ -67,7 +52,7 @@
       <label>Base:</label>
       <select id="selectBase">
         <option value="base1">Base 1 — Ecocenter (García)</option>
-        <option value="base234">Base 2-3-4-PN-11-12 — Maneiro</option>
+        <option value="base234">Base Maneiro / Costa Azul / Ratán / Río</option>
         <option value="base6" selected>Base 6 — Río Terranova</option>
         <option value="base10">Base 10 — Nova Sabanamar</option>
       </select>
@@ -75,24 +60,13 @@
 
     <!-- MAPA -->
     <section class="map-section">
-      <div class="map-container" id="mapContainer">
-        <div class="map-grid"></div>
-        <div class="map-label map-pampatar">Pampatar</div>
-        <div class="map-marker driver-marker" style="top:55%; left:45%;">
-          <span class="pulse"></span>🚕
-        </div>
-        <div class="map-marker dest-marker" style="top:30%; left:65%;">
-          📍
-        </div>
-        <button class="map-btn locate-btn" id="btnLocate" aria-label="Mi ubicación">🎯</button>
-        <div class="map-route"></div>
-      </div>
+      <div id="mapContainer" class="map-container"></div>
+      <button class="map-btn locate-btn" id="btnLocate" aria-label="Mi ubicación">🎯</button>
     </section>
 
-    <!-- PANEL TIMER + FARE -->
+    <!-- PANELES TIMER + FARE -->
     <section class="top-panels">
-
-      <div class="shift-timer" id="shiftTimer">
+      <div class="shift-timer">
         <div class="timer-ring">
           <svg viewBox="0 0 100 100">
             <circle class="ring-bg" cx="50" cy="50" r="45"/>
@@ -116,34 +90,33 @@
           <div><span id="fareTime">0 min</span> · Tiempo</div>
         </div>
       </div>
-
     </section>
 
     <!-- BOTONES RÁPIDOS -->
     <section class="quick-buttons" id="quickButtons">
-      <button class="quick-btn zone-a" data-clave="145" data-nombre="El Yaque">
+      <button class="quick-btn zone-a" data-clave="311" data-nombre="El Yaque">
         <span class="qb-icon">🏖️</span>
         <span class="qb-name">El Yaque</span>
-        <span class="qb-clave">145</span>
+        <span class="qb-clave">311</span>
       </button>
-      <button class="quick-btn zone-b" data-clave="121" data-nombre="Guacuco">
+      <button class="quick-btn zone-b" data-clave="404" data-nombre="Guacuco">
         <span class="qb-icon">🏖️</span>
         <span class="qb-name">Guacuco</span>
-        <span class="qb-clave">121</span>
+        <span class="qb-clave">404</span>
       </button>
-      <button class="quick-btn zone-c" data-clave="143" data-nombre="Playa El Agua">
+      <button class="quick-btn zone-c" data-clave="259" data-nombre="Playa El Agua">
         <span class="qb-icon">🏖️</span>
         <span class="qb-name">Playa El Agua</span>
-        <span class="qb-clave">143</span>
+        <span class="qb-clave">259</span>
       </button>
-      <button class="quick-btn zone-d" data-clave="334" data-nombre="Manzanillo">
+      <button class="quick-btn zone-d" data-clave="260" data-nombre="Manzanillo">
         <span class="qb-icon">🏖️</span>
         <span class="qb-name">Manzanillo</span>
-        <span class="qb-clave">334</span>
+        <span class="qb-clave">260</span>
       </button>
       <button class="quick-btn zone-e" data-clave="C-3" data-nombre="C.C. Costa Azul">
         <span class="qb-icon">🏢</span>
-        <span class="qb-name">C.C. Costa Azul</span>
+        <span class="qb-name">C.C. Costazul</span>
         <span class="qb-clave">C-3</span>
       </button>
       <button class="quick-btn zone-f" data-clave="285" data-nombre="Mata de Coco">
@@ -156,10 +129,10 @@
         <span class="qb-name">Pampatar</span>
         <span class="qb-clave">141</span>
       </button>
-      <button class="quick-btn zone-h" data-clave="330" data-nombre="Urb. Maneiro">
+      <button class="quick-btn zone-h" data-clave="149" data-nombre="Urb. Maneiro">
         <span class="qb-icon">🏘️</span>
         <span class="qb-name">Urb. Maneiro</span>
-        <span class="qb-clave">330</span>
+        <span class="qb-clave">149</span>
       </button>
       <button class="quick-btn add-btn" id="btnAddZone">
         <span class="qb-icon">➕</span>
@@ -181,22 +154,22 @@
     </section>
 
     <!-- TRIP DETAILS -->
-    <section class="trip-details" id="tripDetails">
+    <section class="trip-details">
       <div class="trip-title">TRIP DETAILS</div>
       <div class="trip-body">
         <div class="trip-point">
           <span class="dot green"></span>
-          <span id="tripOrigin">MATA DE COCO</span>
+          <span id="tripOrigin">SIN DESTINO</span>
         </div>
         <div class="trip-arrow">↓</div>
         <div class="trip-point">
           <span class="dot yellow"></span>
-          <span id="tripDest">EL YAQUE</span>
+          <span id="tripDest">—</span>
         </div>
       </div>
       <div class="trip-meta">
-        <span>⏱️ <span id="tripTime">22 min</span></span>
-        <span>💰 <span id="tripFare">$13.00</span></span>
+        <span>⏱️ <span id="tripTime">0 min</span></span>
+        <span>💰 <span id="tripFare">$0.00</span></span>
       </div>
     </section>
 
@@ -206,29 +179,72 @@
     <!-- BOTTOM NAV -->
     <nav class="bottom-nav">
       <button class="nav-btn active" data-screen="dashboard">
-        <span class="nav-icon">📊</span>
-        <span class="nav-label">Dashboard</span>
+        <span class="nav-icon">📊</span><span class="nav-label">Inicio</span>
       </button>
       <button class="nav-btn" data-screen="trips">
-        <span class="nav-icon">🗺️</span>
-        <span class="nav-label">Viajes</span>
+        <span class="nav-icon">🗺️</span><span class="nav-label">Viajes</span>
       </button>
       <button class="nav-btn" data-screen="history">
-        <span class="nav-icon">📋</span>
-        <span class="nav-label">Historial</span>
+        <span class="nav-icon">📋</span><span class="nav-label">Historial</span>
       </button>
       <button class="nav-btn" data-screen="messages">
-        <span class="nav-icon">💬</span>
-        <span class="nav-label">Mensajes</span>
+        <span class="nav-icon">💬</span><span class="nav-label">Mensajes</span>
       </button>
       <button class="nav-btn" data-screen="settings">
-        <span class="nav-icon">⚙️</span>
-        <span class="nav-label">Ajustes</span>
+        <span class="nav-icon">⚙️</span><span class="nav-label">Ajustes</span>
       </button>
     </nav>
 
   </div>
 
+  <!-- MODAL NOTIFICACIONES -->
+  <div class="modal-overlay" id="modalNotif">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>🔔 Notificaciones</h2>
+        <button class="modal-close" data-close="modalNotif">✕</button>
+      </div>
+      <div class="modal-body" id="notifList">
+        <p class="modal-empty">No hay notificaciones nuevas</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL PERFIL -->
+  <div class="modal-overlay" id="modalProfile">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>👤 Mi Perfil</h2>
+        <button class="modal-close" data-close="modalProfile">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="modal-label">Nombre</label>
+        <input type="text" class="modal-input" id="inputNombre" placeholder="Tu nombre" maxlength="40">
+        
+        <label class="modal-label">Teléfono</label>
+        <input type="tel" class="modal-input" id="inputTelefono" placeholder="+58 412 000 0000" maxlength="20">
+        
+        <label class="modal-label">Vehículo (marca/modelo/color)</label>
+        <input type="text" class="modal-input" id="inputVehiculo" placeholder="Ej: Aveo gris, placa ABC123" maxlength="60">
+        
+        <label class="modal-label">Base habitual</label>
+        <select class="modal-input" id="inputBaseHabitual">
+          <option value="base1">Base 1 — Ecocenter</option>
+          <option value="base234">Base Maneiro / Costa Azul</option>
+          <option value="base6" selected>Base 6 — Río Terranova</option>
+          <option value="base10">Base 10 — Nova Sabanamar</option>
+        </select>
+        
+        <button class="modal-btn-primary" id="btnSaveProfile">💾 Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS (orden importa) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/database.js"></script>
+  <script src="js/voice.js"></script>
+  <script src="js/mapa.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
