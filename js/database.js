@@ -530,4 +530,134 @@ const DATABASE = {
     '41': 'INF. PARA TODOS',
     '42': 'INFORME/INDIQUE',
     '43': 'PERSONA MOLESTA',
-    '44': 'PERSONA SOSPECHOS
+    '44': 'PERSONA SOSPECHOSA',
+    '45': 'BORRACHO',
+    '46': 'ENFERMO',
+    '47': 'EN PROBLEMAS',
+    '48': 'APOYO/AYUDA',
+    '49': 'GRACIAS',
+    '50': 'SITUACIÓN TRANQUILA',
+    '51': 'E/S (COMBUSTIBLE)',
+    '52': 'VISUALIZAR',
+    '53': 'PERSONAL DE LA BASE',
+    '54': 'VIGILANTE',
+    '55': 'GRUPO FAMILIAR',
+    '56': 'REGRESO/RETORNO',
+    '57': 'RETÍRESE DEL SITIO',
+    '58': 'ENCOMIENDA',
+    '59': 'GUARDIA/TURNO',
+    '60': 'COMPAÑERO/A',
+    '61': 'DIRECTIVO',
+    '62': 'FAMILIAR',
+    '63': 'MADRE/PADRE',
+    '64': 'HIJO/A',
+    '65': 'ESPOSO/A',
+    '66': 'HERMANO/A',
+    '67': 'DAMA DE COMPAÑÍA',
+    '68': 'HOMOSEXUAL',
+    '69': 'PERSONA 3° EDAD',
+    '70': 'CULMINANDO SERVICIO',
+    '71': 'FUERA DE LA UNIDAD',
+    '72': 'RETRASO',
+    '73': 'LLUVIA',
+    '74': 'PRECAUCIÓN',
+    '75': 'TRÁFICO/CONGESTIÓN',
+    '76': 'EXCESO DE VELOCIDAD',
+    '77': 'EMERGENCIA',
+    '78': 'ACCIDENTE DE TRÁNSITO',
+    '79': 'CHOQUE',
+    '80': 'HERIDO',
+    '81': 'MUERTO',
+    '82': 'ATRACO',
+    '83': 'SECUESTRO',
+    '85': 'HOSPITAL/CLÍNICA',
+    '86': 'CEMENTERIO',
+    '87': 'IGLESIA',
+    '88': 'PLAZA',
+    '89': 'BANCO',
+    '90': 'CENTRO COMERCIAL',
+    '91': 'RESTAURANTE',
+    '92': 'PLAYA',
+    '93': 'CLUB NOCTURNO',
+    '94': 'HOTEL',
+    '95': 'RESIDENCIA/URB.',
+    '97': 'UNIDAD DISPONIBLE',
+    '98': 'UNIDAD OCUPADA',
+    '99': 'UNIDAD OPERATIVA',
+    '100': 'UNIDAD ACCIDENTADA',
+    'P-1': 'GUARDIA NACIONAL',
+    'P-2': 'POLICÍA NACIONAL',
+    'P-3': 'POLICÍA MUNICIPAL',
+    'P-4': 'TRÁNSITO',
+    'P-5': 'CICPC',
+    'P-6': 'PROTECCIÓN CIVIL',
+    'P-7': 'BOMBEROS'
+  },
+
+  // ============================================================
+  // MOTOR DE BÚSQUEDA
+  // ============================================================
+
+  // Normaliza texto: minúsculas, sin tildes, sin signos
+  normalizar(texto) {
+    return String(texto).toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[.,!?¿¡]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  },
+
+  // Busca un destino por texto libre (nombre, alias, clave)
+  buscarDestino(texto) {
+    const t = this.normalizar(texto);
+    if (!t) return null;
+
+    // 1) Coincidencia exacta por clave
+    for (const [clave, info] of Object.entries(this.destinos)) {
+      if (this.normalizar(clave) === t) return { clave, ...info };
+    }
+
+    // 2) Coincidencia exacta por nombre o alias
+    for (const [clave, info] of Object.entries(this.destinos)) {
+      if (this.normalizar(info.nombre) === t) return { clave, ...info };
+      if (info.alias?.some(a => this.normalizar(a) === t)) return { clave, ...info };
+    }
+
+    // 3) Coincidencia parcial (contiene)
+    for (const [clave, info] of Object.entries(this.destinos)) {
+      if (this.normalizar(info.nombre).includes(t) || t.includes(this.normalizar(info.nombre))) {
+        return { clave, ...info };
+      }
+      if (info.alias?.some(a => {
+        const na = this.normalizar(a);
+        return na.includes(t) || t.includes(na);
+      })) return { clave, ...info };
+    }
+
+    return null;
+  },
+
+  // Busca una clave de operación
+  buscarClaveOperacion(texto) {
+    const t = this.normalizar(texto).replace(/^clave\s+/, '');
+    if (this.clavesOperacion[t]) return this.clavesOperacion[t];
+    // Búsqueda inversa: por descripción
+    for (const [clave, desc] of Object.entries(this.clavesOperacion)) {
+      if (this.normalizar(desc).includes(t)) return { clave, descripcion: desc };
+    }
+    return null;
+  },
+
+  // Obtiene la tarifa de una base específica hacia un destino
+  calcularTarifa(base, claveDestino) {
+    return this.tarifas[base]?.precios?.[claveDestino] ?? null;
+  }
+};
+
+// Exponer globalmente
+window.DATABASE = DATABASE;
+console.log('📊 DATABASE cargada:', 
+  Object.keys(DATABASE.destinos).length, 'destinos,',
+  Object.keys(DATABASE.tarifas.base1.precios).length, 'precios base1,',
+  Object.keys(DATABASE.clavesOperacion).length, 'claves operación'
+);
