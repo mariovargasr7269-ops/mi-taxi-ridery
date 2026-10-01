@@ -28,6 +28,9 @@
     <!-- HEADER -->
     <header class="header">
       <div class="header-left">
+        <button class="icon-btn hamburger" id="btnMenu" aria-label="Abrir menú" title="Menú">
+          <span></span><span></span><span></span>
+        </button>
         <button class="icon-btn" id="btnNotifications" aria-label="Notificaciones">
           🔔<span class="badge" id="notifBadge">0</span>
         </button>
@@ -179,26 +182,68 @@
     <!-- ACEPTAR CARRERA -->
     <button class="accept-ride-btn" id="btnAcceptRide">🚕 Aceptar Carrera</button>
 
-    <!-- BOTTOM NAV -->
-    <nav class="bottom-nav">
-      <button class="nav-btn active" data-screen="dashboard">
-        <span class="nav-icon">📊</span><span class="nav-label">Inicio</span>
-      </button>
-      <button class="nav-btn" data-screen="trips">
-        <span class="nav-icon">🗺️</span><span class="nav-label">Viajes</span>
-      </button>
-      <button class="nav-btn" data-screen="history">
-        <span class="nav-icon">📋</span><span class="nav-label">Historial</span>
-      </button>
-      <button class="nav-btn" data-screen="messages">
-        <span class="nav-icon">💬</span><span class="nav-label">Mensajes</span>
-      </button>
-      <button class="nav-btn" data-screen="settings">
-        <span class="nav-icon">⚙️</span><span class="nav-label">Ajustes</span>
-      </button>
-    </nav>
+    <!-- CREDITO PIE -->
+    <div class="app-credit">
+      Hecha por <strong>Mario Vargas Rojas</strong> · 🇻🇪 Margarita
+    </div>
 
   </div>
+
+  <!-- OVERLAY DEL DRAWER -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- CAJÓN LATERAL (menú hamburguesa) -->
+  <aside class="side-drawer" id="sideDrawer">
+    <div class="drawer-header">
+      <div class="drawer-logo">🚕 Mi Taxi Ridery</div>
+      <button class="drawer-close" id="btnCloseDrawer" aria-label="Cerrar menú">✕</button>
+    </div>
+
+    <div class="drawer-body">
+      <!-- NAVEGACIÓN -->
+      <div class="drawer-section-title">Navegación</div>
+      <nav class="drawer-nav">
+        <button class="drawer-nav-btn active" data-screen="dashboard">
+          <span class="drawer-nav-icon">📊</span><span>Inicio</span>
+        </button>
+        <button class="drawer-nav-btn" data-screen="trips">
+          <span class="drawer-nav-icon">🗺️</span><span>Viajes de hoy</span>
+        </button>
+        <button class="drawer-nav-btn" data-screen="history">
+          <span class="drawer-nav-icon">📋</span><span>Historial</span>
+        </button>
+        <button class="drawer-nav-btn" data-screen="messages">
+          <span class="drawer-nav-icon">💬</span><span>Mensajes</span>
+        </button>
+        <button class="drawer-nav-btn" data-screen="settings">
+          <span class="drawer-nav-icon">⚙️</span><span>Ajustes / Perfil</span>
+        </button>
+      </nav>
+
+      <!-- TODOS LOS DESTINOS RÁPIDOS -->
+      <div class="drawer-section-title">Destinos rápidos</div>
+      <div class="drawer-quick-grid" id="drawerQuickGrid">
+        <!-- Se llena dinámicamente desde app.js -->
+      </div>
+
+      <!-- BOTÓN AÑADIR DESTINO -->
+      <button class="drawer-add-btn" id="btnAddZoneDrawer">
+        <span>➕</span> Añadir destino nuevo
+      </button>
+
+      <!-- COLABORAR -->
+      <div class="drawer-section-title">Colaborar</div>
+      <button class="drawer-collab-btn" id="btnCollabDrawer">
+        🤝 Acerca de / Colaborar
+      </button>
+
+      <!-- PIE DEL DRAWER -->
+      <div class="drawer-footer">
+        Hecha por <strong>Mario Vargas Rojas</strong><br>
+        Isla de Margarita, Venezuela 🇻🇪
+      </div>
+    </div>
+  </aside>
 
   <!-- MODAL NOTIFICACIONES -->
   <div class="modal-overlay" id="modalNotif">
@@ -291,38 +336,22 @@
 
         <div class="about-section-title">¿Quieres colaborar?</div>
         <p class="about-collab-desc">
-          Esta app es de código abierto. Si quieres ayudar a escalarla, mejorarla,
-          añadir funciones o adaptarla a otras zonas, escríbeme:
+          Si esta app te sirve y quieres apoyar para que siga mejorando
+          (servidores, funciones nuevas, soporte para más zonas),
+          toda colaboración <strong>económica</strong> es bienvenida:
         </p>
 
-        <a href="https://wa.me/584248620627?text=Hola%20Mario%2C%20vi%20Mi%20Taxi%20Ridery%20y%20quiero%20colaborar" 
+        <a href="https://wa.me/584248620627?text=Hola%20Mario%2C%20quiero%20colaborar%20economicamente%20con%20Mi%20Taxi%20Ridery"
            class="about-btn about-btn-wa" target="_blank" rel="noopener">
           <span class="about-btn-icon">💬</span>
           <div>
-            <div class="about-btn-title">WhatsApp</div>
-            <div class="about-btn-sub">0424 862 0627</div>
+            <div class="about-btn-title">Colaborar por WhatsApp</div>
+            <div class="about-btn-sub">0424 862 0627 — Mario Vargas</div>
           </div>
         </a>
 
-        <a href="https://github.com/mariovargasr7269-ops/mi-taxi-ridery" 
-           class="about-btn about-btn-gh" target="_blank" rel="noopener">
-          <span class="about-btn-icon">🐙</span>
-          <div>
-            <div class="about-btn-title">GitHub</div>
-            <div class="about-btn-sub">Código fuente del proyecto</div>
-          </div>
-        </a>
-
-        <div class="about-tech">
-          <div class="about-tech-title">Tecnologías</div>
-          <div class="about-tech-list">
-            <span class="tech-tag">PWA</span>
-            <span class="tech-tag">Leaflet</span>
-            <span class="tech-tag">OpenStreetMap</span>
-            <span class="tech-tag">Web Speech API</span>
-            <span class="tech-tag">IndexedDB</span>
-            <span class="tech-tag">Vanilla JS</span>
-          </div>
+        <div class="about-thanks">
+          💚 Gracias a todos los taxistas que usan la app y ayudan a mejorarla con sus sugerencias.
         </div>
 
         <div class="about-footer">

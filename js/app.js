@@ -227,7 +227,10 @@ function renderQuickButtons() {
   if (!cont) return;
   cont.innerHTML = '';
 
-  quickButtons.forEach((qb, idx) => {
+  // Mostrar solo los primeros 4 destinos en la pantalla principal
+  const visibles = quickButtons.slice(0, 4);
+
+  visibles.forEach((qb, idx) => {
     const destino = DATABASE.destinos[qb.clave];
     const nombre = destino?.nombre || qb.clave;
     const btn = document.createElement('button');
@@ -241,31 +244,60 @@ function renderQuickButtons() {
     btn.innerHTML = `
       <span class="qb-remove">✕</span>
       <span class="qb-icon">${qb.icon || iconoSegunNombre(nombre)}</span>
-      <span class="qb-name">${nombre.length > 14 ? nombre.slice(0, 13) + '…' : nombre}</span>
+      <span class="qb-name">${nombre.length > 11 ? nombre.slice(0, 10) + '…' : nombre}</span>
       <span class="qb-clave">${qb.clave}</span>
     `;
     cont.appendChild(btn);
   });
 
-  // Botón "+" al final
+  // Botón "+" al final (5ª celda)
   const addBtn = document.createElement('button');
   addBtn.className = 'quick-btn add-btn';
   addBtn.id = 'btnAddZone';
   addBtn.innerHTML = `
     <span class="qb-icon">➕</span>
-    <span class="qb-name">Añadir</span>
+    <span class="qb-name">Más</span>
   `;
   cont.appendChild(addBtn);
 }
 
-// Click en botón rápido (delegación de eventos)
+// Renderiza TODOS los destinos rápidos dentro del drawer
+function renderDrawerQuickGrid() {
+  const cont = document.getElementById('drawerQuickGrid');
+  if (!cont) return;
+  cont.innerHTML = '';
+
+  if (quickButtons.length === 0) {
+    cont.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:var(--text-secondary);font-size:12px;padding:10px">No hay destinos. Toca "Añadir destino nuevo".</p>';
+    return;
+  }
+
+  quickButtons.forEach((qb, idx) => {
+    const destino = DATABASE.destinos[qb.clave];
+    const nombre = destino?.nombre || qb.clave;
+    const btn = document.createElement('button');
+    btn.className = 'quick-btn';
+    btn.dataset.clave = qb.clave;
+    btn.dataset.index = idx;
+    const zonas = ['zone-a', 'zone-b', 'zone-c', 'zone-d', 'zone-e', 'zone-f', 'zone-g', 'zone-h'];
+    btn.classList.add(zonas[idx % zonas.length]);
+    btn.innerHTML = `
+      <span class="qb-icon">${qb.icon || iconoSegunNombre(nombre)}</span>
+      <span class="qb-name">${nombre.length > 13 ? nombre.slice(0, 12) + '…' : nombre}</span>
+      <span class="qb-clave">${qb.clave}</span>
+    `;
+    cont.appendChild(btn);
+  });
+}
+
+// Click en botón rápido de la pantalla principal
 document.getElementById('quickButtons').addEventListener('click', (e) => {
   const btn = e.target.closest('.quick-btn');
   if (!btn) return;
 
-  // Si es el botón de añadir
+  // Si es el botón de añadir (abre el drawer para ver todos / añadir)
   if (btn.id === 'btnAddZone') {
-    abrirModalAddZone();
+    abrirDrawer();
     return;
   }
 
@@ -277,6 +309,7 @@ document.getElementById('quickButtons').addEventListener('click', (e) => {
       quickButtons.splice(idx, 1);
       guardarQuickButtons();
       renderQuickButtons();
+      renderDrawerQuickGrid();
       agregarNotificacion(`🗑️ Quitaste ${removida ? (DATABASE.destinos[removida.clave]?.nombre || removida.clave) : 'un destino'}`);
       hablar('Destino quitado de tus botones rápidos.');
     }
@@ -290,10 +323,25 @@ document.getElementById('quickButtons').addEventListener('click', (e) => {
     return;
   }
 
-  // Comportamiento normal: seleccionar destino
-  const clave = btn.dataset.clave;
+  seleccionarDestino(btn.dataset.clave);
+});
+
+// Click en botón rápido del drawer
+document.getElementById('drawerQuickGrid').addEventListener('click', (e) => {
+  const btn = e.target.closest('.quick-btn');
+  if (!btn) return;
+  seleccionarDestino(btn.dataset.clave);
+  cerrarDrawer();
+});
+
+// Función común para seleccionar un destino (desde pantalla o drawer)
+function seleccionarDestino(clave) {
   const destino = DATABASE.destinos[clave];
-  const nombreFinal = destino?.nombre || clave;
+  if (!destino) {
+    agregarNotificacion('❌ Destino no encontrado');
+    return;
+  }
+  const nombreFinal = destino.nombre;
   const precio = DATABASE.calcularTarifa(state.baseActiva, clave);
 
   ui.tripDest.textContent = nombreFinal.toUpperCase();
@@ -307,7 +355,7 @@ document.getElementById('quickButtons').addEventListener('click', (e) => {
     hablar(`Destino ${nombreFinal}, clave ${clave}`);
     ui.voiceTranscript.textContent = `📻 ${nombreFinal} (${clave}) · Sin tarifa registrada`;
   }
-});
+}
 
 // Pulsación larga para entrar en modo edición
 let pressTimer = null;
@@ -404,6 +452,7 @@ function agregarDestinoRapido(clave) {
   quickButtons.push({ clave, icon: iconoSegunNombre(destino.nombre) });
   guardarQuickButtons();
   renderQuickButtons();
+  renderDrawerQuickGrid();
   cerrarModal('modalAddZone');
   agregarNotificacion(`✅ Añadido: ${destino.nombre} (${clave})`);
   hablar(`Añadido ${destino.nombre} a tus botones rápidos.`);
@@ -536,20 +585,64 @@ ui.btnJornada.addEventListener('click', () => {
   else if (confirm('¿Terminar la jornada y generar el balance?')) terminarJornada();
 });
 
-// ============ NAVEGACIÓN INFERIOR ============
-document.querySelectorAll('.nav-btn').forEach(btn => {
+// ============ CAJÓN LATERAL (DRAWER) ============
+function abrirDrawer() {
+  document.getElementById('sideDrawer')?.classList.add('open');
+  document.getElementById('drawerOverlay')?.classList.add('open');
+  renderDrawerQuickGrid();
+  if (navigator.vibrate) navigator.vibrate(20);
+}
+
+function cerrarDrawer() {
+  document.getElementById('sideDrawer')?.classList.remove('open');
+  document.getElementById('drawerOverlay')?.classList.remove('open');
+}
+
+$('btnMenu')?.addEventListener('click', abrirDrawer);
+$('btnCloseDrawer')?.addEventListener('click', cerrarDrawer);
+$('drawerOverlay')?.addEventListener('click', cerrarDrawer);
+
+// Cerrar drawer con tecla Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.getElementById('sideDrawer')?.classList.contains('open')) {
+    cerrarDrawer();
+  }
+});
+
+// Botones del drawer: añadir destino y colaborar
+$('btnAddZoneDrawer')?.addEventListener('click', () => {
+  cerrarDrawer();
+  setTimeout(abrirModalAddZone, 250);
+});
+
+$('btnCollabDrawer')?.addEventListener('click', () => {
+  cerrarDrawer();
+  setTimeout(() => abrirModal('modalAbout'), 250);
+});
+
+// ============ NAVEGACIÓN (en el drawer) ============
+document.querySelectorAll('.drawer-nav-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.drawer-nav-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const screen = btn.dataset.screen;
-    if (screen === 'trips' || screen === 'history') {
+    cerrarDrawer();
+
+    if (screen === 'dashboard') {
+      // Ya estamos en inicio, solo cerrar el drawer
+      agregarNotificacion('📊 Pantalla principal');
+    } else if (screen === 'trips' || screen === 'history') {
       const total = state.viajesHoy.reduce((s, v) => s + v.tarifa, 0);
-      alert(`📋 Viajes de hoy: ${state.viajesHoy.length}\n💰 Total: $${total.toFixed(2)}`);
+      const neto = total - state.gastosHoy.reduce((s, g) => s + g.monto, 0);
+      alert(`📋 VIAJES DE HOY\n\n🚕 Cantidad: ${state.viajesHoy.length}\n💰 Recaudado: $${total.toFixed(2)}\n💸 Gastos: $${state.gastosHoy.reduce((s, g) => s + g.monto, 0).toFixed(2)}\n✅ Neto: $${neto.toFixed(2)}`);
     } else if (screen === 'messages') {
       agregarNotificacion('💬 No hay mensajes nuevos');
-      abrirModal('modalNotif');
+      setTimeout(() => abrirModal('modalNotif'), 250);
     } else if (screen === 'settings') {
-      abrirModal('modalProfile');
+      setTimeout(() => {
+        cargarPerfilEnModal();
+        abrirModal('modalProfile');
+      }, 250);
     }
   });
 });
@@ -626,6 +719,7 @@ window.addEventListener('load', () => {
   cargarPreferencias();
   cargarQuickButtons();
   renderQuickButtons();
+  renderDrawerQuickGrid();
   aplicarTema();
   aplicarPerfil();
   actualizarNotificaciones();

@@ -147,9 +147,9 @@ body {
 
 .base-selector label {
   color: var(--text-secondary);
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.5px;
 }
 
@@ -159,9 +159,9 @@ body {
   color: var(--neon-green);
   border: 1px solid var(--border-glow);
   border-radius: 6px;
-  padding: 5px 8px;
+  padding: 8px 10px;
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   outline: none;
 }
@@ -448,7 +448,7 @@ body[data-theme="light"] .timer-display {
 }
 
 .fare-details {
-  font-size: 10px;
+  font-size: 12px;
   color: var(--text-secondary);
   display: flex;
   flex-direction: column;
@@ -460,29 +460,21 @@ body[data-theme="light"] .timer-display {
   font-weight: 700;
 }
 
-/* ============ BOTONES RÁPIDOS (tira horizontal deslizable) ============ */
+/* ============ BOTONES RÁPIDOS (grilla fija: 4 destinos + añadir) ============ */
 .quick-buttons {
-  display: flex;
-  flex-direction: row;
-  gap: 7px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
   padding: 8px 10px;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: hidden;
   flex: 0 0 auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.quick-buttons::-webkit-scrollbar {
-  display: none;
 }
 
 .quick-btn {
   background: var(--bg-card);
   border: 1.5px solid var(--border-glow);
   border-radius: 12px;
-  padding: 8px 6px;
+  padding: 8px 4px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -493,12 +485,9 @@ body[data-theme="light"] .timer-display {
   overflow: hidden;
   color: var(--text-primary);
   font-family: var(--font-body);
-  min-width: 72px;
-  max-width: 72px;
+  min-width: 0;
   min-height: 68px;
   justify-content: center;
-  flex-shrink: 0;
-  scroll-snap-align: start;
 }
 
 .quick-btn::before {
@@ -530,10 +519,11 @@ body[data-theme="light"] .timer-display {
   text-align: center;
   line-height: 1.1;
   letter-spacing: 0.2px;
-  max-width: 64px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  width: 100%;
+  padding: 0 2px;
 }
 
 .qb-clave {
@@ -811,6 +801,276 @@ body[data-theme="light"] .timer-display {
 ::-webkit-scrollbar {
   width: 3px;
 }
+
+/* ============ MENÚ HAMBURGUESA ☰ ============ */
+.hamburger {
+  flex-direction: column !important;
+  gap: 4px !important;
+  width: 44px !important;
+  height: 44px !important;
+}
+
+.hamburger span {
+  display: block;
+  width: 20px;
+  height: 2.5px;
+  background: var(--neon-green);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.hamburger:active span {
+  background: var(--neon-gold);
+}
+
+/* ============ CAJÓN LATERAL (DRAWER) ============ */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 500;
+}
+
+.drawer-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.side-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 86%;
+  max-width: 320px;
+  height: 100dvh;
+  background: var(--bg-panel);
+  border-right: 1.5px solid var(--border-glow);
+  box-shadow: 4px 0 30px rgba(0, 0, 0, 0.5);
+  transform: translateX(-105%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 600;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.side-drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, rgba(94, 234, 212, 0.1), transparent);
+  border-bottom: 1px solid var(--border-glow);
+  flex-shrink: 0;
+}
+
+.drawer-logo {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--neon-green);
+  letter-spacing: 1px;
+}
+
+.drawer-close {
+  background: rgba(94, 234, 212, 0.1);
+  border: 1px solid var(--border-glow);
+  color: var(--neon-green);
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 16px;
+}
+
+.drawer-section-title {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 18px 0 10px;
+  font-weight: 700;
+}
+
+.drawer-section-title:first-child {
+  margin-top: 0;
+}
+
+/* Nav del drawer */
+.drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.drawer-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 13px 14px;
+  background: rgba(94, 234, 212, 0.05);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.drawer-nav-btn.active {
+  background: rgba(94, 234, 212, 0.15);
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+}
+
+.drawer-nav-btn:active {
+  transform: scale(0.98);
+}
+
+.drawer-nav-icon {
+  font-size: 22px;
+  width: 28px;
+  text-align: center;
+}
+
+/* Grilla de destinos dentro del drawer */
+.drawer-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.drawer-quick-grid .quick-btn {
+  min-width: auto;
+  max-width: none;
+  min-height: 72px;
+}
+
+.drawer-quick-grid .qb-name {
+  font-size: 10px;
+  max-width: none;
+  white-space: normal;
+}
+
+/* Botón añadir destino del drawer */
+.drawer-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, rgba(252, 211, 77, 0.15), rgba(252, 211, 77, 0.08));
+  border: 1.5px dashed var(--neon-gold);
+  border-radius: 10px;
+  color: var(--neon-gold);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.drawer-add-btn:active {
+  transform: scale(0.98);
+}
+
+/* Botón colaborar del drawer */
+.drawer-collab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(135deg, #25d366, #128c4a);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.drawer-collab-btn:active {
+  transform: scale(0.98);
+}
+
+/* Pie del drawer */
+.drawer-footer {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-glow);
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.drawer-footer strong {
+  color: var(--neon-gold);
+  font-size: 13px;
+}
+
+/* ============ CRÉDITO PIE DE PANTALLA ============ */
+.app-credit {
+  text-align: center;
+  padding: 6px 10px 8px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: rgba(94, 234, 212, 0.04);
+  border-top: 1px solid rgba(94, 234, 212, 0.1);
+  flex-shrink: 0;
+}
+
+.app-credit strong {
+  color: var(--neon-gold);
+}
+
+/* ============ BOTÓN UBICACIÓN MÁS GRANDE ============ */
+.map-btn.locate-btn {
+  width: 48px !important;
+  height: 48px !important;
+  font-size: 22px !important;
+  bottom: 14px !important;
+  left: 14px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(94, 234, 212, 0.2);
+  border: 2px solid var(--neon-green) !important;
+  animation: locate-pulse 2.5s infinite;
+}
+
+@keyframes locate-pulse {
+  0%, 100% { box-shadow: 0 4px 14px rgba(0,0,0,0.4), 0 0 0 3px rgba(94, 234, 212, 0.2); }
+  50% { box-shadow: 0 4px 14px rgba(0,0,0,0.4), 0 0 0 6px rgba(94, 234, 212, 0.05); }
+}
+
+body[data-theme="light"] .map-btn.locate-btn {
+  background: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2), 0 0 0 3px rgba(13, 148, 136, 0.2);
+}
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
@@ -1433,34 +1693,34 @@ html, body, #app {
 
 /* Pantallas chicas (iPhone SE, Android viejos) */
 @media (max-height: 640px) {
-  .map-section { flex: 0 0 22vh; min-height: 130px; }
-  .voice-button { width: 78px; height: 78px; }
+  .map-section { flex: 0 0 24vh; min-height: 140px; }
+  .voice-button { width: 76px; height: 76px; }
   .voice-mic { font-size: 24px; }
   .voice-label { font-size: 9px; }
   .fare-amount { font-size: 22px; }
   .timer-value { font-size: 18px; }
-  .timer-ring { width: 58px; height: 58px; }
-  .quick-btn { min-width: 66px; max-width: 66px; min-height: 60px; padding: 6px 4px; }
+  .timer-ring { width: 56px; height: 56px; }
+  .quick-btn { min-height: 58px; padding: 5px 2px; }
   .qb-icon { font-size: 16px; }
-  .qb-name { font-size: 10px; max-width: 58px; }
-  .qb-clave { font-size: 9px; }
+  .qb-name { font-size: 9px; }
+  .qb-clave { font-size: 8px; }
   .top-panels { gap: 6px; padding: 6px 8px; }
   .app-title { font-size: 15px; }
   .accept-ride-btn { font-size: 12px; padding: 8px; }
-  .nav-btn { font-size: 11px; padding: 4px 6px; }
-  .nav-icon { font-size: 18px; }
+  .app-credit { font-size: 10px; padding: 4px 8px 6px; }
 }
 
 /* Pantallas muy chicas */
 @media (max-height: 560px) {
-  .map-section { flex: 0 0 18vh; min-height: 110px; }
+  .map-section { flex: 0 0 20vh; min-height: 120px; }
   .voice-button { width: 70px; height: 70px; }
   .voice-mic { font-size: 22px; }
   .voice-title { font-size: 9px; }
   .top-panels { gap: 5px; padding: 5px 6px; }
-  .quick-btn { min-width: 60px; max-width: 60px; min-height: 54px; }
+  .quick-btn { min-height: 50px; }
   .trip-details { padding: 6px 10px; }
   .trip-body { font-size: 11px; }
+  .app-credit { display: none; }
 }
 
 /* Pantallas grandes (tablets) */
