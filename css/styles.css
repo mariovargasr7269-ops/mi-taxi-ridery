@@ -1,20 +1,21 @@
 /* ============================================
-   MI TAXI RADERY — Estilos Cyberpunk Neón
+   MI TAXI RIDERY — Estilos Isla Tropical Suave
+   Paleta inspirada en Margarita: mar, arena, palma
    ============================================ */
 
 :root {
-  --bg-dark: #06110f;
-  --bg-panel: #0a1c18;
-  --bg-card: rgba(10, 30, 25, 0.85);
-  --neon-green: #00ffa3;
-  --neon-green-soft: #4affc4;
-  --neon-yellow: #ffd45e;
-  --neon-gold: #f5c542;
-  --neon-cyan: #4dd0e1;
-  --text-primary: #e6fff5;
-  --text-secondary: #7ab8a8;
-  --border-glow: rgba(0, 255, 163, 0.4);
-  --shadow-glow: 0 0 20px rgba(0, 255, 163, 0.5);
+  --bg-dark: #0e2421;
+  --bg-panel: #16302b;
+  --bg-card: rgba(22, 48, 43, 0.82);
+  --neon-green: #5eead4;
+  --neon-green-soft: #7df0db;
+  --neon-yellow: #fde68a;
+  --neon-gold: #fcd34d;
+  --neon-cyan: #67e8f9;
+  --text-primary: #ecfdf5;
+  --text-secondary: #86c7b8;
+  --border-glow: rgba(94, 234, 212, 0.35);
+  --shadow-glow: 0 0 20px rgba(94, 234, 212, 0.35);
   --font-display: 'Orbitron', sans-serif;
   --font-body: 'Rajdhani', sans-serif;
 }
@@ -36,8 +37,8 @@ body {
   background: var(--bg-dark);
   color: var(--text-primary);
   background-image:
-    radial-gradient(circle at 20% 10%, rgba(0, 255, 163, 0.08), transparent 40%),
-    radial-gradient(circle at 80% 90%, rgba(245, 197, 66, 0.06), transparent 40%);
+    radial-gradient(circle at 20% 10%, rgba(94, 234, 212, 0.08), transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(252, 211, 77, 0.06), transparent 40%);
   user-select: none;
 }
 
@@ -57,14 +58,14 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 8px 14px;
-  background: linear-gradient(180deg, rgba(0, 255, 163, 0.08), transparent);
-  border-bottom: 1px solid rgba(0, 255, 163, 0.15);
+  background: linear-gradient(180deg, rgba(94, 234, 212, 0.08), transparent);
+  border-bottom: 1px solid rgba(94, 234, 212, 0.15);
   position: relative;
   z-index: 10;
 }
 
 .icon-btn {
-  background: rgba(0, 255, 163, 0.1);
+  background: rgba(94, 234, 212, 0.1);
   border: 1px solid var(--border-glow);
   border-radius: 50%;
   width: 40px;
@@ -119,12 +120,12 @@ body {
 .title-line {
   display: block;
   color: var(--neon-green);
-  text-shadow: 0 0 10px rgba(0, 255, 163, 0.7);
+  text-shadow: 0 0 10px rgba(94, 234, 212, 0.7);
 }
 
 .title-line.accent {
   color: var(--neon-gold);
-  text-shadow: 0 0 10px rgba(245, 197, 66, 0.7);
+  text-shadow: 0 0 10px rgba(252, 211, 77, 0.7);
 }
 
 .logo-car {
@@ -139,8 +140,8 @@ body {
   align-items: center;
   gap: 8px;
   padding: 6px 14px;
-  background: rgba(0, 255, 163, 0.05);
-  border-bottom: 1px solid rgba(0, 255, 163, 0.1);
+  background: rgba(94, 234, 212, 0.05);
+  border-bottom: 1px solid rgba(94, 234, 212, 0.1);
   font-size: 12px;
 }
 
@@ -177,7 +178,7 @@ body {
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(circle at 50% 50%, rgba(0, 255, 163, 0.05), transparent 70%),
+    radial-gradient(circle at 50% 50%, rgba(94, 234, 212, 0.05), transparent 70%),
     linear-gradient(135deg, #061a16 0%, #08120f 100%);
   position: relative;
   overflow: hidden;
@@ -187,8 +188,8 @@ body {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(0, 255, 163, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 163, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(94, 234, 212, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(94, 234, 212, 0.06) 1px, transparent 1px);
   background-size: 30px 30px;
 }
 
@@ -200,7 +201,7 @@ body {
   font-family: var(--font-display);
   font-size: 13px;
   color: var(--neon-green-soft);
-  text-shadow: 0 0 10px rgba(0, 255, 163, 0.8);
+  text-shadow: 0 0 10px rgba(94, 234, 212, 0.8);
   letter-spacing: 2px;
   opacity: 0.7;
 }
@@ -286,7 +287,7 @@ body {
   border: 1.5px solid var(--neon-gold);
   border-radius: 14px;
   padding: 8px;
-  box-shadow: 0 0 15px rgba(245, 197, 66, 0.3), inset 0 0 15px rgba(245, 197, 66, 0.05);
+  box-shadow: 0 0 15px rgba(252, 211, 77, 0.3), inset 0 0 15px rgba(252, 211, 77, 0.05);
   text-align: center;
   backdrop-filter: blur(8px);
 }
@@ -306,7 +307,7 @@ body {
 
 .ring-bg {
   fill: none;
-  stroke: rgba(245, 197, 66, 0.15);
+  stroke: rgba(252, 211, 77, 0.15);
   stroke-width: 5;
 }
 
@@ -343,7 +344,7 @@ body {
   font-weight: 900;
   color: var(--text-primary);
   line-height: 1;
-  text-shadow: 0 0 10px rgba(245, 197, 66, 0.6);
+  text-shadow: 0 0 10px rgba(252, 211, 77, 0.6);
 }
 
 .timer-status {
@@ -373,7 +374,7 @@ body {
   width: 100%;
   margin-top: 8px;
   padding: 6px;
-  background: linear-gradient(135deg, var(--neon-green), #00b377);
+  background: linear-gradient(135deg, var(--neon-green), #0f766e);
   border: none;
   border-radius: 8px;
   color: #001a10;
@@ -381,7 +382,7 @@ body {
   font-weight: 700;
   font-size: 11px;
   cursor: pointer;
-  box-shadow: 0 0 12px rgba(0, 255, 163, 0.5);
+  box-shadow: 0 0 12px rgba(94, 234, 212, 0.5);
   transition: all 0.2s;
 }
 
@@ -400,7 +401,7 @@ body {
   border: 1.5px solid var(--neon-green);
   border-radius: 14px;
   padding: 8px;
-  box-shadow: 0 0 15px rgba(0, 255, 163, 0.3), inset 0 0 15px rgba(0, 255, 163, 0.05);
+  box-shadow: 0 0 15px rgba(94, 234, 212, 0.3), inset 0 0 15px rgba(94, 234, 212, 0.05);
   text-align: center;
   backdrop-filter: blur(8px);
 }
@@ -418,7 +419,7 @@ body {
   font-size: 26px;
   font-weight: 900;
   color: var(--neon-gold);
-  text-shadow: 0 0 15px rgba(245, 197, 66, 0.8);
+  text-shadow: 0 0 15px rgba(252, 211, 77, 0.8);
   line-height: 1;
   margin: 4px 0;
 }
@@ -469,7 +470,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(0, 255, 163, 0.05), transparent);
+  background: linear-gradient(135deg, rgba(94, 234, 212, 0.05), transparent);
   opacity: 0;
   transition: opacity 0.2s;
 }
@@ -541,7 +542,7 @@ body {
   letter-spacing: 1px;
   margin-bottom: 4px;
   font-weight: 600;
-  text-shadow: 0 0 8px rgba(0, 255, 163, 0.5);
+  text-shadow: 0 0 8px rgba(94, 234, 212, 0.5);
 }
 
 .voice-button {
@@ -549,7 +550,7 @@ body {
   width: 110px;
   height: 110px;
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 30%, rgba(0, 255, 163, 0.3), rgba(0, 100, 70, 0.5));
+  background: radial-gradient(circle at 40% 30%, rgba(94, 234, 212, 0.3), rgba(0, 100, 70, 0.5));
   border: 2px solid var(--neon-green);
   display: flex;
   flex-direction: column;
@@ -557,8 +558,8 @@ body {
   justify-content: center;
   cursor: pointer;
   box-shadow:
-    0 0 25px rgba(0, 255, 163, 0.6),
-    inset 0 0 25px rgba(0, 255, 163, 0.2);
+    0 0 25px rgba(94, 234, 212, 0.6),
+    inset 0 0 25px rgba(94, 234, 212, 0.2);
   transition: all 0.2s;
   overflow: visible;
 }
@@ -580,20 +581,20 @@ body {
   position: absolute;
   inset: -8px;
   border-radius: 50%;
-  border: 1px solid rgba(0, 255, 163, 0.3);
+  border: 1px solid rgba(94, 234, 212, 0.3);
   animation: ring-pulse 3s infinite;
 }
 
 .voice-ring:nth-child(2) {
   inset: -16px;
   animation-delay: 1s;
-  border-color: rgba(0, 255, 163, 0.15);
+  border-color: rgba(94, 234, 212, 0.15);
 }
 
 .voice-ring:nth-child(3) {
   inset: -24px;
   animation-delay: 2s;
-  border-color: rgba(0, 255, 163, 0.08);
+  border-color: rgba(94, 234, 212, 0.08);
 }
 
 @keyframes ring-pulse {
@@ -695,7 +696,7 @@ body {
   color: var(--text-secondary);
   margin-top: 4px;
   padding-top: 4px;
-  border-top: 1px dashed rgba(0, 255, 163, 0.2);
+  border-top: 1px dashed rgba(94, 234, 212, 0.2);
 }
 
 .trip-meta span {
@@ -707,7 +708,7 @@ body {
 .accept-ride-btn {
   margin: 4px 10px 6px;
   padding: 9px;
-  background: linear-gradient(135deg, var(--neon-green), #00cc88);
+  background: linear-gradient(135deg, var(--neon-green), #14b8a6);
   border: none;
   border-radius: 10px;
   color: #001a10;
@@ -716,13 +717,13 @@ body {
   font-weight: 700;
   letter-spacing: 1px;
   cursor: pointer;
-  box-shadow: 0 0 20px rgba(0, 255, 163, 0.5);
+  box-shadow: 0 0 20px rgba(94, 234, 212, 0.5);
   transition: all 0.2s;
 }
 
 .accept-ride-btn:active {
   transform: scale(0.97);
-  box-shadow: 0 0 30px rgba(0, 255, 163, 0.9);
+  box-shadow: 0 0 30px rgba(94, 234, 212, 0.9);
 }
 
 /* ============ BOTTOM NAV ============ */
@@ -753,7 +754,7 @@ body {
 
 .nav-btn.active {
   color: var(--neon-green);
-  text-shadow: 0 0 8px rgba(0, 255, 163, 0.7);
+  text-shadow: 0 0 8px rgba(94, 234, 212, 0.7);
 }
 
 .nav-icon {
@@ -786,43 +787,42 @@ body {
   .fare-amount { font-size: 22px; }
   .timer-value { font-size: 18px; }
   .quick-btn { min-height: 50px; }
-  .qb-icon { font-size: 14px
+  .qb-icon { font-size: 14px; }
+}
 
-/* ============ TEMA DÍA (claro) ============ */
+/* ============================================================
+   TEMA DÍA (claro) — Isla tropical suave
+   ============================================================ */
 body[data-theme="light"] {
-  --bg-dark: #f0f5f3;
+  --bg-dark: #f0fdfa;
   --bg-panel: #ffffff;
-  --bg-card: rgba(255, 255, 255, 0.9);
-  --neon-green: #00a86b;
-  --neon-green-soft: #008c56;
-  --neon-yellow: #d4a017;
-  --neon-gold: #c8950a;
-  --neon-cyan: #0288a8;
-  --text-primary: #0a1c18;
-  --text-secondary: #4a6d63;
-  --border-glow: rgba(0, 168, 107, 0.3);
-  --shadow-glow: 0 0 20px rgba(0, 168, 107, 0.3);
+  --bg-card: rgba(255, 255, 255, 0.92);
+  --neon-green: #0d9488;
+  --neon-green-soft: #14b8a6;
+  --neon-yellow: #f59e0b;
+  --neon-gold: #d97706;
+  --neon-cyan: #0891b2;
+  --text-primary: #134e4a;
+  --text-secondary: #5b8782;
+  --border-glow: rgba(13, 148, 136, 0.3);
+  --shadow-glow: 0 2px 12px rgba(13, 148, 136, 0.2);
+  background-color: var(--bg-dark);
   background-image:
-    radial-gradient(circle at 20% 10%, rgba(0, 168, 107, 0.08), transparent 40%),
-    radial-gradient(circle at 80% 90%, rgba(200, 149, 10, 0.06), transparent 40%);
+    radial-gradient(circle at 20% 10%, rgba(13, 148, 136, 0.07), transparent 40%),
+    radial-gradient(circle at 80% 90%, rgba(217, 119, 6, 0.05), transparent 40%);
+  color: var(--text-primary);
 }
 
 body[data-theme="light"] .map-container {
-  background: linear-gradient(135deg, #e6f5ee 0%, #d9ede4 100%);
-}
-
-body[data-theme="light"] .map-grid {
-  background-image:
-    linear-gradient(rgba(0, 168, 107, 0.1) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 168, 107, 0.1) 1px, transparent 1px);
-}
-
-body[data-theme="light"] .bottom-nav {
-  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, #e6f5ee, #d9ede4);
 }
 
 body[data-theme="light"] .header {
-  background: linear-gradient(180deg, rgba(0, 168, 107, 0.06), transparent);
+  background: linear-gradient(180deg, rgba(13, 148, 136, 0.08), transparent);
+}
+
+body[data-theme="light"] .bottom-nav {
+  background: rgba(255, 255, 255, 0.96);
 }
 
 /* ============ HEADER RIGHT (2 botones) ============ */
@@ -844,41 +844,7 @@ body[data-theme="light"] .header {
   pointer-events: auto;
 }
 
-/* ============================================================
-   TEMA DÍA (claro)
-   ============================================================ */
-body[data-theme="light"] {
-  --bg-dark: #eef5f2;
-  --bg-panel: #ffffff;
-  --bg-card: rgba(255, 255, 255, 0.92);
-  --neon-green: #00a86b;
-  --neon-green-soft: #008a56;
-  --neon-yellow: #c78f00;
-  --neon-gold: #b8860b;
-  --neon-cyan: #0277a8;
-  --text-primary: #0a1c18;
-  --text-secondary: #527a6e;
-  --border-glow: rgba(0, 168, 107, 0.35);
-  --shadow-glow: 0 2px 12px rgba(0, 168, 107, 0.25);
-  background-color: var(--bg-dark);
-  background-image:
-    radial-gradient(circle at 20% 10%, rgba(0, 168, 107, 0.08), transparent 40%),
-    radial-gradient(circle at 80% 90%, rgba(184, 134, 11, 0.06), transparent 40%);
-  color: var(--text-primary);
-}
-
-body[data-theme="light"] .map-container {
-  background: linear-gradient(135deg, #e6f5ee, #d9ede4);
-}
-
-body[data-theme="light"] .header {
-  background: linear-gradient(180deg, rgba(0, 168, 107, 0.08), transparent);
-}
-
-body[data-theme="light"] .bottom-nav {
-  background: rgba(255, 255, 255, 0.96);
-}
-
+/* ---- Reglas adicionales del tema claro (paleta isla) ---- */
 body[data-theme="light"] .quick-btn,
 body[data-theme="light"] .trip-details,
 body[data-theme="light"] .shift-timer,
@@ -889,24 +855,16 @@ body[data-theme="light"] .fare-calculator {
 
 body[data-theme="light"] .app-title .title-line {
   color: var(--neon-green);
-  text-shadow: 0 1px 4px rgba(0, 168, 107, 0.3);
+  text-shadow: 0 1px 4px rgba(13, 148, 136, 0.3);
 }
 
 body[data-theme="light"] .title-line.accent {
   color: var(--neon-gold);
-  text-shadow: 0 1px 4px rgba(184, 134, 11, 0.3);
+  text-shadow: 0 1px 4px rgba(217, 119, 6, 0.3);
 }
 
 /* ============================================================
-   HEADER RIGHT con 2 botones
-   ============================================================ */
-.header-right {
-  display: flex;
-  gap: 8px;
-}
-
-/* ============================================================
-   FIX: paneles superiores NO se monten sobre el mapa
+   FIX: paneles superiores NO se montan sobre el mapa
    ============================================================ */
 .top-panels {
   position: absolute;
@@ -930,11 +888,11 @@ body[data-theme="light"] .title-line.accent {
 #mapContainer {
   width: 100%;
   height: 100%;
-  background: #0a1c18;
+  background: #16302b;
 }
 
 .leaflet-container {
-  background: #0a1c18 !important;
+  background: #16302b !important;
   font-family: var(--font-body) !important;
 }
 
@@ -946,13 +904,70 @@ body[data-theme="light"] .leaflet-container {
 .leaflet-control-attribution {
   font-size: 8px !important;
   background: rgba(0,0,0,0.5) !important;
-  color: #7ab8a8 !important;
+  color: #86c7b8 !important;
 }
 .leaflet-control-attribution a {
-  color: #00ffa3 !important;
+  color: #5eead4 !important;
 }
 .leaflet-control-zoom {
   display: none !important;
+}
+
+/* ============ MARCADORES PERSONALIZADOS (mapa.js) ============ */
+.mapa-taxi-marker,
+.mapa-destino-marker {
+  background: none !important;
+  border: none !important;
+}
+
+.taxi-emoji {
+  font-size: 28px;
+  text-align: center;
+  line-height: 40px;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+  transform: rotate(-8deg);
+}
+
+.dest-emoji {
+  font-size: 24px;
+  text-align: center;
+  line-height: 32px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.taxi-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(94, 234, 212, 0.5);
+  animation: taxi-pulse 2s infinite;
+  z-index: -1;
+}
+
+@keyframes taxi-pulse {
+  0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0.9; }
+  100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+}
+
+/* Popups de Leaflet con estilo isla */
+.leaflet-popup-content-wrapper {
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  border-radius: 12px;
+  border: 1px solid var(--border-glow);
+  box-shadow: var(--shadow-glow);
+}
+.leaflet-popup-tip {
+  background: var(--bg-panel);
+}
+.leaflet-popup-content {
+  font-family: var(--font-body);
+  font-weight: 600;
+  margin: 8px 12px;
 }
 
 /* ============================================================
@@ -989,7 +1004,7 @@ body[data-theme="light"] .leaflet-container {
   max-width: 380px;
   max-height: 85vh;
   overflow-y: auto;
-  box-shadow: 0 0 40px rgba(0, 255, 163, 0.3);
+  box-shadow: 0 0 40px rgba(94, 234, 212, 0.3);
   animation: slideUp 0.3s ease;
 }
 
@@ -1004,7 +1019,7 @@ body[data-theme="light"] .leaflet-container {
   align-items: center;
   margin-bottom: 14px;
   padding-bottom: 10px;
-  border-bottom: 1px solid rgba(0, 255, 163, 0.15);
+  border-bottom: 1px solid rgba(94, 234, 212, 0.15);
 }
 
 .modal-header h2 {
@@ -1028,7 +1043,7 @@ body[data-theme="light"] .leaflet-container {
 
 .modal-close:active {
   transform: scale(0.92);
-  background: rgba(0, 255, 163, 0.1);
+  background: rgba(94, 234, 212, 0.1);
 }
 
 .modal-body {
@@ -1070,7 +1085,7 @@ body[data-theme="light"] .leaflet-container {
 
 .modal-input:focus {
   border-color: var(--neon-green);
-  box-shadow: 0 0 12px rgba(0, 255, 163, 0.3);
+  box-shadow: 0 0 12px rgba(94, 234, 212, 0.3);
 }
 
 body[data-theme="light"] .modal-input {
@@ -1080,7 +1095,7 @@ body[data-theme="light"] .modal-input {
 .modal-btn-primary {
   margin-top: 14px;
   padding: 12px;
-  background: linear-gradient(135deg, var(--neon-green), #00b377);
+  background: linear-gradient(135deg, var(--neon-green), #0f766e);
   border: none;
   border-radius: 10px;
   color: #001a10;
@@ -1089,7 +1104,7 @@ body[data-theme="light"] .modal-input {
   font-weight: 700;
   letter-spacing: 1px;
   cursor: pointer;
-  box-shadow: 0 0 15px rgba(0, 255, 163, 0.4);
+  box-shadow: 0 0 15px rgba(94, 234, 212, 0.4);
   transition: all 0.2s;
 }
 
@@ -1100,7 +1115,7 @@ body[data-theme="light"] .modal-input {
 /* Notificaciones item */
 .notif-item {
   padding: 10px 12px;
-  background: rgba(0, 255, 163, 0.06);
+  background: rgba(94, 234, 212, 0.06);
   border-left: 3px solid var(--neon-green);
   border-radius: 8px;
   margin-bottom: 8px;
@@ -1166,7 +1181,7 @@ html, body, #app {
     margin: 0 auto;
     border-left: 1px solid var(--border-glow);
     border-right: 1px solid var(--border-glow);
-    box-shadow: 0 0 60px rgba(0, 255, 163, 0.15);
+    box-shadow: 0 0 60px rgba(94, 234, 212, 0.15);
   }
   body {
     background: #030806;

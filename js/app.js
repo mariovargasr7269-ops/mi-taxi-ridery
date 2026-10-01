@@ -125,6 +125,8 @@ function iniciarJornada() {
   ui.btnJornada.classList.add('active');
   state.cronometroInterval = setInterval(actualizarCronometro, 1000);
   actualizarCronometro();
+  // Iniciar trazado de recorrido en el mapa
+  if (window.mapaModule?.iniciarRecorrido) window.mapaModule.iniciarRecorrido();
   agregarNotificacion('🚕 Jornada iniciada. ¡Buen viaje!');
   hablar('Jornada iniciada. Buen viaje, compañero.');
 }
@@ -150,6 +152,14 @@ function terminarJornada() {
     `💸 Gastos: $${totalGastos.toFixed(2)}\n` +
     `✅ Neto: $${neto.toFixed(2)}`
   );
+
+  // Detener trazado de recorrido y guardar puntos en la jornada
+  if (window.mapaModule?.terminarRecorrido) {
+    const puntos = window.mapaModule.terminarRecorrido();
+    if (puntos && puntos.length > 1) {
+      agregarNotificacion(`🗺️ Recorrido: ${puntos.length} puntos registrados`);
+    }
+  }
 
   state.jornadaActiva = false;
   state.jornadaInicio = null;
