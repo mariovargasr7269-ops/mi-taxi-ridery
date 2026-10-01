@@ -240,6 +240,25 @@
     </div>
   </div>
 
+  <!-- MODAL AÑADIR ZONA -->
+  <div class="modal-overlay" id="modalAddZone">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>➕ Añadir destino</h2>
+        <button class="modal-close" data-close="modalAddZone">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="modal-input" id="inputBuscarZona" placeholder="Escribe el nombre o clave del destino..." autocomplete="off">
+        <div class="zone-search-results" id="zoneSearchResults">
+          <p class="modal-empty">Escribe para buscar entre los 189 destinos</p>
+        </div>
+        <div class="zone-edit-hint" id="zoneEditHint">
+          💡 <strong>Tip:</strong> mantén presionado un destino rápido para editarlo o quitarlo.
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- SCRIPTS (orden importa) -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/database.js"></script>

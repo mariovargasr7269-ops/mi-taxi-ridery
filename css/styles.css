@@ -159,17 +159,28 @@ body {
   color: var(--neon-green);
   border: 1px solid var(--border-glow);
   border-radius: 6px;
-  padding: 4px 8px;
+  padding: 5px 8px;
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   outline: none;
 }
 
+body[data-theme="light"] .base-selector select {
+  background: #ffffff;
+  color: var(--neon-green);
+  border-color: rgba(13, 148, 136, 0.4);
+}
+
+body[data-theme="light"] .base-selector select option {
+  background: #ffffff;
+  color: var(--text-primary);
+}
+
 /* ============ MAPA ============ */
 .map-section {
-  flex: 0 0 28vh;
-  min-height: 180px;
+  flex: 0 0 22vh;
+  min-height: 150px;
   position: relative;
   overflow: hidden;
 }
@@ -179,7 +190,7 @@ body {
   height: 100%;
   background:
     radial-gradient(circle at 50% 50%, rgba(94, 234, 212, 0.05), transparent 70%),
-    linear-gradient(135deg, #061a16 0%, #08120f 100%);
+    linear-gradient(135deg, #16302b 0%, #0e2421 100%);
   position: relative;
   overflow: hidden;
 }
@@ -270,16 +281,23 @@ body {
   z-index: 5;
 }
 
-/* ============ PANELES SUPERIORES ============ */
+body[data-theme="light"] .map-btn {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--neon-green);
+}
+
+/* ============ PANELES SUPERIORES (en flujo normal) ============ */
 .top-panels {
-  position: absolute;
-  top: 90px;
-  right: 10px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  z-index: 6;
-  width: 130px;
+  flex-direction: row;
+  gap: 8px;
+  padding: 8px 10px;
+  flex: 0 0 auto;
+  align-items: stretch;
+}
+
+.top-panels > * {
+  flex: 1;
 }
 
 .shift-timer {
@@ -294,8 +312,8 @@ body {
 
 .timer-ring {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   margin: 0 auto;
 }
 
@@ -332,7 +350,7 @@ body {
 }
 
 .timer-label {
-  font-size: 7px;
+  font-size: 9px;
   letter-spacing: 1px;
   color: var(--neon-gold);
   font-weight: 700;
@@ -340,7 +358,7 @@ body {
 
 .timer-value {
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 900;
   color: var(--text-primary);
   line-height: 1;
@@ -348,7 +366,7 @@ body {
 }
 
 .timer-status {
-  font-size: 6px;
+  font-size: 9px;
   letter-spacing: 1px;
   color: var(--text-secondary);
   margin-top: 2px;
@@ -361,26 +379,31 @@ body {
 
 .timer-display {
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: 14px;
   color: var(--neon-gold);
   margin-top: 6px;
-  padding: 3px;
-  background: rgba(0, 0, 0, 0.5);
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.35);
   border-radius: 6px;
   letter-spacing: 1px;
+}
+
+body[data-theme="light"] .timer-display {
+  background: rgba(13, 148, 136, 0.12);
+  color: var(--neon-gold);
 }
 
 .btn-jornada {
   width: 100%;
   margin-top: 8px;
-  padding: 6px;
+  padding: 8px 6px;
   background: linear-gradient(135deg, var(--neon-green), #0f766e);
   border: none;
   border-radius: 8px;
   color: #001a10;
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
   box-shadow: 0 0 12px rgba(94, 234, 212, 0.5);
   transition: all 0.2s;
@@ -407,7 +430,7 @@ body {
 }
 
 .fare-label {
-  font-size: 8px;
+  font-size: 10px;
   color: var(--neon-green);
   letter-spacing: 0.5px;
   font-weight: 600;
@@ -416,7 +439,7 @@ body {
 
 .fare-amount {
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 900;
   color: var(--neon-gold);
   text-shadow: 0 0 15px rgba(252, 211, 77, 0.8);
@@ -425,11 +448,11 @@ body {
 }
 
 .fare-details {
-  font-size: 9px;
+  font-size: 10px;
   color: var(--text-secondary);
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 
 .fare-details span {
@@ -485,20 +508,20 @@ body {
 }
 
 .qb-icon {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1;
 }
 
 .qb-name {
-  font-size: 8.5px;
+  font-size: 10px;
   font-weight: 700;
   text-align: center;
-  line-height: 1;
+  line-height: 1.1;
   letter-spacing: 0.2px;
 }
 
 .qb-clave {
-  font-size: 7px;
+  font-size: 9px;
   color: var(--neon-green);
   font-family: var(--font-display);
   letter-spacing: 0.5px;
@@ -742,12 +765,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1px;
+  gap: 2px;
   color: var(--text-secondary);
   font-family: var(--font-body);
-  font-size: 8px;
+  font-size: 11px;
   cursor: pointer;
-  padding: 2px 8px;
+  padding: 4px 8px;
   transition: all 0.2s;
   border-radius: 8px;
 }
@@ -758,12 +781,13 @@ body {
 }
 
 .nav-icon {
-  font-size: 16px;
+  font-size: 20px;
   line-height: 1;
 }
 
 .nav-label {
   font-weight: 600;
+  font-size: 11px;
   letter-spacing: 0.3px;
 }
 
@@ -803,7 +827,7 @@ body[data-theme="light"] {
   --neon-gold: #d97706;
   --neon-cyan: #0891b2;
   --text-primary: #134e4a;
-  --text-secondary: #5b8782;
+  --text-secondary: #4a6d63;
   --border-glow: rgba(13, 148, 136, 0.3);
   --shadow-glow: 0 2px 12px rgba(13, 148, 136, 0.2);
   background-color: var(--bg-dark);
@@ -831,19 +855,6 @@ body[data-theme="light"] .bottom-nav {
   gap: 8px;
 }
 
-/* ============ FIX: paneles superiores (no se monten) ============ */
-.top-panels {
-  position: absolute;
-  top: 165px;
-  right: 10px;
-  z-index: 20;
-  pointer-events: none;
-}
-
-.top-panels > * {
-  pointer-events: auto;
-}
-
 /* ---- Reglas adicionales del tema claro (paleta isla) ---- */
 body[data-theme="light"] .quick-btn,
 body[data-theme="light"] .trip-details,
@@ -861,25 +872,6 @@ body[data-theme="light"] .app-title .title-line {
 body[data-theme="light"] .title-line.accent {
   color: var(--neon-gold);
   text-shadow: 0 1px 4px rgba(217, 119, 6, 0.3);
-}
-
-/* ============================================================
-   FIX: paneles superiores NO se montan sobre el mapa
-   ============================================================ */
-.top-panels {
-  position: absolute;
-  top: 165px;
-  right: 10px;
-  z-index: 20;
-  pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 135px;
-}
-
-.top-panels > * {
-  pointer-events: auto;
 }
 
 /* ============================================================
@@ -1076,11 +1068,21 @@ body[data-theme="light"] .leaflet-container {
   padding: 10px 12px;
   color: var(--text-primary);
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   outline: none;
   transition: all 0.2s;
   width: 100%;
+}
+
+body[data-theme="light"] .modal-input {
+  background: #ffffff;
+  border-color: rgba(13, 148, 136, 0.4);
+  color: var(--text-primary);
+}
+
+body[data-theme="light"] .modal-input::placeholder {
+  color: #8ba9a3;
 }
 
 .modal-input:focus {
@@ -1088,8 +1090,103 @@ body[data-theme="light"] .leaflet-container {
   box-shadow: 0 0 12px rgba(94, 234, 212, 0.3);
 }
 
-body[data-theme="light"] .modal-input {
-  background: rgba(240, 245, 243, 0.9);
+/* ============ MODAL AÑADIR ZONA ============ */
+.zone-search-results {
+  margin-top: 10px;
+  max-height: 50vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.zone-result-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: rgba(94, 234, 212, 0.06);
+  border: 1px solid var(--border-glow);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.zone-result-item:active {
+  transform: scale(0.98);
+  background: rgba(94, 234, 212, 0.15);
+}
+
+.zone-result-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.zone-result-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.zone-result-clave {
+  font-family: var(--font-display);
+  color: var(--neon-green);
+  background: rgba(94, 234, 212, 0.12);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.zone-result-municipio {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.zone-edit-hint {
+  margin-top: 12px;
+  padding: 8px 10px;
+  background: rgba(252, 211, 77, 0.08);
+  border-left: 3px solid var(--neon-gold);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Estado de botón rápido en edición */
+.quick-btn.editing {
+  animation: shake 0.4s infinite;
+  border-color: var(--neon-yellow) !important;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+/* Badge de número en botón rápido (orden) */
+.quick-btn .qb-remove {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ff4d4d;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.quick-btn.editing .qb-remove {
+  display: flex;
 }
 
 .modal-btn-primary {
@@ -1147,29 +1244,29 @@ html, body, #app {
 
 /* Pantallas chicas (iPhone SE, Android viejos) */
 @media (max-height: 640px) {
-  .map-section { flex: 0 0 18vh; min-height: 120px; }
+  .map-section { flex: 0 0 16vh; min-height: 110px; }
   .voice-button { width: 85px; height: 85px; }
   .voice-mic { font-size: 26px; }
   .voice-label { font-size: 9px; }
   .fare-amount { font-size: 20px; }
   .timer-value { font-size: 16px; }
-  .timer-ring { width: 65px; height: 65px; }
-  .quick-btn { min-height: 46px; padding: 4px 2px; }
-  .qb-icon { font-size: 13px; }
-  .qb-name { font-size: 7px; }
-  .qb-clave { font-size: 6px; }
-  .top-panels { top: 150px; width: 115px; }
+  .timer-ring { width: 60px; height: 60px; }
+  .quick-btn { min-height: 44px; padding: 4px 2px; }
+  .qb-icon { font-size: 15px; }
+  .qb-name { font-size: 9px; }
+  .qb-clave { font-size: 8px; }
+  .top-panels { gap: 6px; padding: 6px 8px; }
   .app-title { font-size: 13px; }
   .accept-ride-btn { font-size: 11px; padding: 7px; }
 }
 
 /* Pantallas muy chicas */
 @media (max-height: 560px) {
-  .map-section { flex: 0 0 14vh; min-height: 100px; }
+  .map-section { flex: 0 0 12vh; min-height: 90px; }
   .voice-button { width: 72px; height: 72px; }
   .voice-mic { font-size: 22px; }
   .voice-title { font-size: 9px; }
-  .top-panels { top: 140px; width: 105px; }
+  .top-panels { gap: 5px; padding: 5px 6px; }
   .trip-details { padding: 6px 10px; }
   .trip-body { font-size: 10px; }
 }

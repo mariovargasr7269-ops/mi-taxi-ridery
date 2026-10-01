@@ -172,30 +172,242 @@ function terminarJornada() {
   ui.ringProgress.style.strokeDashoffset = 283;
 }
 
-// ============ BOTONES RÁPIDOS ============
-document.querySelectorAll('.quick-btn[data-clave]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const clave = btn.dataset.clave;
-    const nombre = btn.dataset.nombre;
-    
-    // Usar DATABASE para obtener el nombre canónico y precio
-    const destino = DATABASE.destinos[clave];
-    const nombreFinal = destino?.nombre || nombre;
-    const precio = DATABASE.calcularTarifa(state.baseActiva, clave);
-    
-    ui.tripDest.textContent = nombreFinal.toUpperCase();
-    ui.tripFare.textContent = precio != null ? `$${precio.toFixed(2)}` : '$—';
-    ui.fareAmount.textContent = precio != null ? `$${precio.toFixed(2)}` : '$0.00';
-    
-    if (precio != null) {
-      hablar(`Destino ${nombreFinal}, clave ${clave}, tarifa ${precio} dólares`);
-      ui.voiceTranscript.textContent = `📻 ${nombreFinal} (${clave}) · $${precio.toFixed(2)}`;
+// ============ BOTONES RÁPIDOS DINÁMICOS ============
+const DEFAULT_QUICK_BUTTONS = [
+  { clave: '311', icon: '🏖️' },
+  { clave: '404', icon: '🏖️' },
+  { clave: '259', icon: '🏖️' },
+  { clave: '260', icon: '🏖️' },
+  { clave: 'C-3', icon: '🏢' },
+  { clave: '285', icon: '🏘️' },
+  { clave: '141', icon: '🏰' },
+  { clave: '149', icon: '🏘️' }
+];
+
+let quickButtons = [];
+let modoEdicionBotones = false;
+
+// Auto-asigna un icono según el nombre del destino
+function iconoSegunNombre(nombre) {
+  const n = nombre.toLowerCase();
+  if (/playa|yaque|guacuco|agua|manzanillo|parguito|caracol|el cuesi|puerto/.test(n)) return '🏖️';
+  if (/centro comercial|c\.c\.|sambil|ecommerce|supermarket|rio|nova|ecocenter/.test(n)) return '🏢';
+  if (/urb\.|urbanizaci|maneiro|robles|olivos|oasis|victoria|sabanamar/.test(n)) return '🏘️';
+  if (/pampatar|castillo|fortin|asuncion|santa ana|juangriego/.test(n)) return '🏰';
+  if (/hospital|clinica|centro medico/.test(n)) return '🏥';
+  if (/aeropuerto|terminal/.test(n)) return '✈️';
+  if (/plaza|bolivar/.test(n)) return '🌳';
+  return '📍';
+}
+
+function cargarQuickButtons() {
+  try {
+    const guardados = localStorage.getItem('quickButtons');
+    if (guardados) {
+      quickButtons = JSON.parse(guardados);
     } else {
-      hablar(`Destino ${nombreFinal}, clave ${clave}`);
-      ui.voiceTranscript.textContent = `📻 ${nombreFinal} (${clave}) · Sin tarifa registrada`;
+      quickButtons = [...DEFAULT_QUICK_BUTTONS];
     }
+  } catch (e) {
+    console.warn('No se pudieron cargar quick buttons:', e);
+    quickButtons = [...DEFAULT_QUICK_BUTTONS];
+  }
+}
+
+function guardarQuickButtons() {
+  try {
+    localStorage.setItem('quickButtons', JSON.stringify(quickButtons));
+  } catch (e) {
+    console.warn('No se pudieron guardar quick buttons:', e);
+  }
+}
+
+function renderQuickButtons() {
+  const cont = document.getElementById('quickButtons');
+  if (!cont) return;
+  cont.innerHTML = '';
+
+  quickButtons.forEach((qb, idx) => {
+    const destino = DATABASE.destinos[qb.clave];
+    const nombre = destino?.nombre || qb.clave;
+    const btn = document.createElement('button');
+    btn.className = 'quick-btn';
+    btn.dataset.clave = qb.clave;
+    btn.dataset.index = idx;
+    // Color de borde por zona (cíclico)
+    const zonas = ['zone-a', 'zone-b', 'zone-c', 'zone-d', 'zone-e', 'zone-f', 'zone-g', 'zone-h'];
+    btn.classList.add(zonas[idx % zonas.length]);
+    if (modoEdicionBotones) btn.classList.add('editing');
+    btn.innerHTML = `
+      <span class="qb-remove">✕</span>
+      <span class="qb-icon">${qb.icon || iconoSegunNombre(nombre)}</span>
+      <span class="qb-name">${nombre.length > 14 ? nombre.slice(0, 13) + '…' : nombre}</span>
+      <span class="qb-clave">${qb.clave}</span>
+    `;
+    cont.appendChild(btn);
   });
+
+  // Botón "+" al final
+  const addBtn = document.createElement('button');
+  addBtn.className = 'quick-btn add-btn';
+  addBtn.id = 'btnAddZone';
+  addBtn.innerHTML = `
+    <span class="qb-icon">➕</span>
+    <span class="qb-name">Añadir</span>
+  `;
+  cont.appendChild(addBtn);
+}
+
+// Click en botón rápido (delegación de eventos)
+document.getElementById('quickButtons').addEventListener('click', (e) => {
+  const btn = e.target.closest('.quick-btn');
+  if (!btn) return;
+
+  // Si es el botón de añadir
+  if (btn.id === 'btnAddZone') {
+    abrirModalAddZone();
+    return;
+  }
+
+  // Si está en modo edición y se tocó el botón de quitar
+  if (modoEdicionBotones && e.target.closest('.qb-remove')) {
+    const idx = parseInt(btn.dataset.index, 10);
+    if (!isNaN(idx)) {
+      const removida = quickButtons[idx];
+      quickButtons.splice(idx, 1);
+      guardarQuickButtons();
+      renderQuickButtons();
+      agregarNotificacion(`🗑️ Quitaste ${removida ? (DATABASE.destinos[removida.clave]?.nombre || removida.clave) : 'un destino'}`);
+      hablar('Destino quitado de tus botones rápidos.');
+    }
+    return;
+  }
+
+  // Si está en modo edición, salir del modo al tocar un botón normal
+  if (modoEdicionBotones) {
+    modoEdicionBotones = false;
+    renderQuickButtons();
+    return;
+  }
+
+  // Comportamiento normal: seleccionar destino
+  const clave = btn.dataset.clave;
+  const destino = DATABASE.destinos[clave];
+  const nombreFinal = destino?.nombre || clave;
+  const precio = DATABASE.calcularTarifa(state.baseActiva, clave);
+
+  ui.tripDest.textContent = nombreFinal.toUpperCase();
+  ui.tripFare.textContent = precio != null ? `$${precio.toFixed(2)}` : '$—';
+  ui.fareAmount.textContent = precio != null ? `$${precio.toFixed(2)}` : '$0.00';
+
+  if (precio != null) {
+    hablar(`Destino ${nombreFinal}, clave ${clave}, tarifa ${precio} dólares`);
+    ui.voiceTranscript.textContent = `📻 ${nombreFinal} (${clave}) · $${precio.toFixed(2)}`;
+  } else {
+    hablar(`Destino ${nombreFinal}, clave ${clave}`);
+    ui.voiceTranscript.textContent = `📻 ${nombreFinal} (${clave}) · Sin tarifa registrada`;
+  }
 });
+
+// Pulsación larga para entrar en modo edición
+let pressTimer = null;
+document.getElementById('quickButtons').addEventListener('touchstart', (e) => {
+  const btn = e.target.closest('.quick-btn');
+  if (!btn || btn.id === 'btnAddZone') return;
+  pressTimer = setTimeout(() => {
+    modoEdicionBotones = true;
+    renderQuickButtons();
+    agregarNotificacion('✏️ Modo edición: toca ✕ para quitar. Toca un destino para salir.');
+    if (navigator.vibrate) navigator.vibrate(50);
+  }, 700);
+});
+document.getElementById('quickButtons').addEventListener('touchend', () => {
+  if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+});
+document.getElementById('quickButtons').addEventListener('touchmove', () => {
+  if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+});
+
+// ============ MODAL AÑADIR ZONA ============
+function abrirModalAddZone() {
+  const input = $('inputBuscarZona');
+  input.value = '';
+  renderResultadosBusquedaZona('');
+  abrirModal('modalAddZone');
+  setTimeout(() => input.focus(), 100);
+}
+
+$('inputBuscarZona').addEventListener('input', (e) => {
+  renderResultadosBusquedaZona(e.target.value);
+});
+
+function renderResultadosBusquedaZona(query) {
+  const cont = $('zoneSearchResults');
+  const q = (query || '').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+  if (!q) {
+    cont.innerHTML = '<p class="modal-empty">Escribe para buscar entre los 189 destinos</p>';
+    return;
+  }
+
+  const resultados = [];
+  for (const [clave, info] of Object.entries(DATABASE.destinos)) {
+    const nombreNorm = DATABASE.normalizar(info.nombre);
+    const aliasNorm = (info.alias || []).map(a => DATABASE.normalizar(a));
+    if (nombreNorm.includes(q) || aliasNorm.some(a => a.includes(q)) || clave.includes(q)) {
+      resultados.push({ clave, ...info });
+    }
+    if (resultados.length >= 20) break;
+  }
+
+  if (resultados.length === 0) {
+    cont.innerHTML = '<p class="modal-empty">No se encontraron destinos</p>';
+    return;
+  }
+
+  cont.innerHTML = resultados.map(r => `
+    <div class="zone-result-item" data-clave="${r.clave}">
+      <div>
+        <div class="zone-result-name">${r.nombre}</div>
+        <div class="zone-result-meta">
+          <span class="zone-result-clave">${r.clave}</span>
+          <span class="zone-result-municipio">${r.municipio || ''}</span>
+        </div>
+      </div>
+      <span style="font-size:18px">${iconoSegunNombre(r.nombre)}</span>
+    </div>
+  `).join('');
+
+  // Listener para cada resultado
+  cont.querySelectorAll('.zone-result-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const clave = item.dataset.clave;
+      agregarDestinoRapido(clave);
+    });
+  });
+}
+
+function agregarDestinoRapido(clave) {
+  if (quickButtons.some(qb => qb.clave === clave)) {
+    agregarNotificacion('⚠️ Ese destino ya está en tus botones rápidos');
+    return;
+  }
+  if (quickButtons.length >= 12) {
+    agregarNotificacion('⚠️ Máximo 12 destinos rápidos. Quita uno primero (mantén presionado).');
+    return;
+  }
+  const destino = DATABASE.destinos[clave];
+  if (!destino) {
+    agregarNotificacion('❌ Destino no encontrado');
+    return;
+  }
+  quickButtons.push({ clave, icon: iconoSegunNombre(destino.nombre) });
+  guardarQuickButtons();
+  renderQuickButtons();
+  cerrarModal('modalAddZone');
+  agregarNotificacion(`✅ Añadido: ${destino.nombre} (${clave})`);
+  hablar(`Añadido ${destino.nombre} a tus botones rápidos.`);
+}
 
 // ============ ACEPTAR CARRERA ============
 ui.btnAcceptRide.addEventListener('click', () => {
@@ -406,6 +618,8 @@ window.agregarNotificacion = agregarNotificacion;
 window.addEventListener('load', () => {
   console.log('🚕 Mi Taxi Ridery v3.0 iniciado');
   cargarPreferencias();
+  cargarQuickButtons();
+  renderQuickButtons();
   aplicarTema();
   aplicarPerfil();
   actualizarNotificaciones();
