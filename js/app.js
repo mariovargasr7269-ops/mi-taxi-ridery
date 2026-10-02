@@ -361,7 +361,9 @@ function seleccionarDestino(clave) {
   const nombreFinal = destino.nombre;
   const precio = DATABASE.calcularTarifa(state.baseActiva, clave);
 
-  ui.tripDest.textContent = nombreFinal.toUpperCase();
+  // Ahora son inputs, usar .value
+  const tripDestInput = $('tripDest');
+  if (tripDestInput) tripDestInput.value = nombreFinal;
   ui.tripFare.textContent = precio != null ? `$${precio.toFixed(2)}` : '$—';
   ui.fareAmount.textContent = precio != null ? `$${precio.toFixed(2)}` : '$0.00';
 
@@ -477,12 +479,12 @@ function agregarDestinoRapido(clave) {
 
 // ============ ACEPTAR CARRERA ============
 ui.btnAcceptRide.addEventListener('click', () => {
-  const origen = ui.tripOrigin.textContent;
-  const destino = ui.tripDest.textContent;
+  const origen = $('tripOrigin').value.trim() || 'BASE ACTIVA';
+  const destino = $('tripDest').value.trim();
   const tarifa = parseFloat(ui.tripFare.textContent.replace('$', '')) || 0;
 
-  if (destino === '—') {
-    agregarNotificacion('⚠️ Selecciona un destino antes de aceptar');
+  if (!destino) {
+    agregarNotificacion('⚠️ Escribe o di un destino antes de aceptar');
     hablar('Selecciona un destino primero.');
     return;
   }
@@ -492,9 +494,124 @@ ui.btnAcceptRide.addEventListener('click', () => {
     origen, destino, tarifa
   });
 
-  hablar(`Carrera aceptada. Destino ${destino.toLowerCase()}. Tarifa ${tarifa} dólares.`);
+  hablar(`Carrera aceptada. De ${origen} a ${destino}. Tarifa ${tarifa} dólares.`);
   agregarNotificacion(`✅ Viaje #${state.viajesHoy.length}: ${origen} → ${destino} ($${tarifa.toFixed(2)})`);
+
+  // Limpiar destino pero mantener origen
+  $('tripDest').value = '';
+  ui.tripFare.textContent = '$0.00';
+  ui.fareAmount.textContent = '$0.00';
 });
+
+// ============ SET TRIP MANUAL (botón ✓) ============
+$('btnSetTrip')?.addEventListener('click', () => {
+  const origenTxt = $('tripOrigin').value.trim();
+  const destinoTxt = $('tripDest').value.trim();
+
+  if (!destinoTxt) {
+    agregarNotificacion('⚠️ Escribe un destino primero');
+    return;
+  }
+
+  // Buscar destino en la base de datos
+  const destino = DATABASE.buscarDestino(destinoTxt);
+  const origen = origenTxt ? DATABASE.buscarDestino(origenTxt) : null;
+
+  let tarifa = null;
+  if (destino) {
+    tarifa = DATABASE.calcularTarifa(state.baseActiva, destino.clave);
+  }
+
+  if (tarifa != null) {
+    ui.tripFare.textContent = `$${tarifa.toFixed(2)}`;
+    ui.fareAmount.textContent = `$${tarifa.toFixed(2)}`;
+    const nomDest = destino.nombre;
+    $('tripDest').value = nomDest;
+    if (origen) $('tripOrigin').value = origen.nombre;
+    hablar(`De ${origen ? origen.nombre : origenTxt} a ${nomDest}. Tarifa ${tarifa} dólares.`);
+    agregarNotificacion(`📻 ${origen ? origen.nombre : origenTxt} → ${nomDest} · $${tarifa.toFixed(2)}`);
+  } else if (destino) {
+    $('tripDest').value = destino.nombre;
+    hablar(`Destino ${destino.nombre}. Sin tarifa registrada para la base activa.`);
+    agregarNotificacion(`📻 ${destino.nombre} · Sin tarifa`);
+  } else {
+    // No se encontró en la BD, usar el texto manual
+    hablar(`Viaje manual: de ${origenTxt} a ${destinoTxt}.`);
+    agregarNotificacion(`📝 Viaje manual: ${origenTxt} → ${destinoTxt}`);
+  }
+});
+
+// ============ GASTOS / EVENTUALIDADES ============
+let gastoCategoriaSeleccionada = 'Combustible';
+
+$('btnGastosDrawer')?.addEventListener('click', () => {
+  cerrarDrawer();
+  setTimeout(() => {
+    renderGastosModal();
+    abrirModal('modalGastos');
+  }, 250);
+});
+
+$('gastoCategorias')?.addEventListener('click', (e) => {
+  const btn = e.target.closest('.gasto-cat-btn');
+  if (!btn) return;
+  gastoCategoriaSeleccionada = btn.dataset.cat;
+  document.querySelectorAll('.gasto-cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+});
+
+$('btnSaveGasto')?.addEventListener('click', () => {
+  const monto = parseFloat($('inputGastoMonto').value);
+  const desc = $('inputGastoDesc').value.trim();
+
+  if (isNaN(monto) || monto <= 0) {
+    agregarNotificacion('⚠️ Escribe un monto válido');
+    return;
+  }
+
+  state.gastosHoy.push({
+    categoria: gastoCategoriaSeleccionada,
+    monto,
+    desc,
+    hora: new Date().toLocaleTimeString()
+  });
+
+  $('inputGastoMonto').value = '';
+  $('inputGastoDesc').value = '';
+  renderGastosModal();
+  agregarNotificacion(`💸 Gasto: ${gastoCategoriaSeleccionada} $${monto.toFixed(2)}`);
+  hablar(`${gastoCategoriaSeleccionada}, ${monto} dólares.`);
+});
+
+function renderGastosModal() {
+  const cont = $('gastosList');
+  if (!cont) return;
+  if (state.gastosHoy.length === 0) {
+    cont.innerHTML = '<p class="modal-empty">No hay gastos registrados</p>';
+    return;
+  }
+  cont.innerHTML = state.gastosHoy.map((g, i) => `
+    <div class="gasto-item">
+      <div class="gasto-item-info">
+        <div class="gasto-item-cat">${g.categoria} · ${g.hora || ''}</div>
+        <div class="gasto-item-desc">${g.desc || 'Sin descripción'}</div>
+      </div>
+      <div class="gasto-item-monto">$${g.monto.toFixed(2)}</div>
+      <button class="gasto-item-delete" data-idx="${i}" title="Eliminar">🗑️</button>
+    </div>
+  `).join('');
+
+  cont.querySelectorAll('.gasto-item-delete').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.idx);
+      if (!isNaN(idx)) {
+        state.gastosHoy.splice(idx, 1);
+        renderGastosModal();
+        agregarNotificacion('🗑️ Gasto eliminado');
+      }
+    });
+  });
+}
 
 // ============ SELECTOR DE BASE ============
 ui.selectBase.addEventListener('change', (e) => {
@@ -731,34 +848,78 @@ function renderViajesModal() {
   const total = state.viajesHoy.reduce((s, v) => s + (v.tarifa || 0), 0);
   const gastos = state.gastosHoy.reduce((s, g) => s + (g.monto || 0), 0);
   const neto = total - gastos;
+  const duracion = state.jornadaInicio ? formatearTiempo(Date.now() - state.jornadaInicio).largo : '—';
 
   let html = `
     <div class="viaje-balance">
-      <div class="viaje-balance-label">Balance de hoy</div>
+      <div class="viaje-balance-label">📊 Balance de hoy · ⏱️ ${duracion}</div>
       <div class="viaje-balance-total">$${neto.toFixed(2)}</div>
       <div class="viaje-balance-detalles">
-        <div>🚕 <span>${n}</span> viajes</div>
-        <div>💰 <span>$${total.toFixed(2)}</span></div>
-        <div>💸 <span>$${gastos.toFixed(2)}</span></div>
+        <div>🚕 Viajes: <span>${n}</span></div>
+        <div>💰 Recaudado: <span>$${total.toFixed(2)}</span></div>
+        <div>💸 Gastos: <span>$${gastos.toFixed(2)}</span></div>
       </div>
     </div>
   `;
 
   if (n === 0) {
-    html += '<p class="modal-empty">Aún no has aceptado viajes hoy. Toca "Aceptar Carrera" en la pantalla principal.</p>';
+    html += '<p class="modal-empty">Aún no has aceptado viajes hoy. Escribe destino en el recuadro o usa el micrófono y toca "Aceptar Carrera".</p>';
   } else {
-    html += state.viajesHoy.slice().reverse().map((v, i) => `
-      <div class="viaje-item">
+    html += '<div class="drawer-section-title" style="margin-top:14px">Lista de viajes</div>';
+    html += state.viajesHoy.slice().reverse().map((v, i) => {
+      const realIdx = state.viajesHoy.length - 1 - i;
+      return `
+      <div class="viaje-item" data-idx="${realIdx}">
+        <button class="viaje-delete-btn" data-del="${realIdx}" title="Eliminar">🗑️</button>
+        <button class="viaje-edit-btn" data-edit="${realIdx}" title="Editar">✏️</button>
         <div class="viaje-info">
           <div class="viaje-hora">🕐 ${v.hora || '—'}</div>
-          <div class="viaje-ruta">${v.origen || 'Base'} → ${v.destino || '—'}</div>
+          <div class="viaje-ruta" data-field="ruta">${v.origen || 'Base'} → ${v.destino || '—'}</div>
         </div>
-        <div class="viaje-tarifa">$${(v.tarifa || 0).toFixed(2)}</div>
+        <div class="viaje-tarifa" data-field="tarifa">$${(v.tarifa || 0).toFixed(2)}</div>
       </div>
-    `).join('');
+    `;}).join('');
   }
 
   cont.innerHTML = html;
+
+  // Wire up edit/delete buttons
+  cont.querySelectorAll('.viaje-delete-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.del);
+      if (!isNaN(idx) && confirm('¿Eliminar este viaje del registro?')) {
+        state.viajesHoy.splice(idx, 1);
+        renderViajesModal();
+        agregarNotificacion('🗑️ Viaje eliminado del registro');
+      }
+    });
+  });
+
+  cont.querySelectorAll('.viaje-edit-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.edit);
+      if (isNaN(idx)) return;
+      const v = state.viajesHoy[idx];
+      const item = btn.closest('.viaje-item');
+      const rutaEl = item.querySelector('[data-field="ruta"]');
+      const tarifaEl = item.querySelector('[data-field="tarifa"]');
+      rutaEl.innerHTML = `<input class="viaje-edit-input" value="${v.origen || ''} → ${v.destino || ''}" data-edit-ruta="${idx}">`;
+      tarifaEl.innerHTML = `<input class="viaje-edit-input" value="${v.tarifa || 0}" data-edit-tarifa="${idx}" type="number" step="0.50" style="width:70px">`;
+      const rutaInput = item.querySelector('[data-edit-ruta]');
+      const tarifaInput = item.querySelector('[data-edit-tarifa]');
+      const saveEdit = () => {
+        const rutaStr = rutaInput.value.split('→');
+        state.viajesHoy[idx].origen = (rutaStr[0] || '').trim();
+        state.viajesHoy[idx].destino = (rutaStr[1] || '').trim();
+        state.viajesHoy[idx].tarifa = parseFloat(tarifaInput.value) || 0;
+        renderViajesModal();
+        agregarNotificacion('✏️ Viaje editado');
+      };
+      rutaInput.addEventListener('blur', saveEdit);
+      tarifaInput.addEventListener('blur', saveEdit);
+      rutaInput.focus();
+    });
+  });
 }
 
 // ============ MODAL HISTORIAL DE JORNADAS ============

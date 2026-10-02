@@ -245,8 +245,8 @@
         responder(texto, `📻 ${origen.nombre} (${origen.clave}) → ${destino.nombre} (${destino.clave}) · ${tarifa != null ? '$' + tarifa.toFixed(2) : 's/t'}`);
         // Actualizar trip details en pantalla
         if (window.state) {
-          document.getElementById('tripOrigin').textContent = origen.nombre.toUpperCase();
-          document.getElementById('tripDest').textContent = destino.nombre.toUpperCase();
+          document.getElementById('tripOrigin').value = origen.nombre;
+          document.getElementById('tripDest').value = destino.nombre;
           document.getElementById('tripFare').textContent = tarifa != null ? `$${tarifa.toFixed(2)}` : '$—';
           document.getElementById('fareAmount').textContent = tarifa != null ? `$${tarifa.toFixed(2)}` : '$0.00';
         }
@@ -258,7 +258,7 @@
           responder(`A ${destino.nombre}, clave ${destino.clave}. Sin tarifa registrada para la base activa.`, `📻 ${destino.nombre} (${destino.clave}) · s/t`);
         }
         if (window.state) {
-          document.getElementById('tripDest').textContent = destino.nombre.toUpperCase();
+          document.getElementById('tripDest').value = destino.nombre;
           document.getElementById('tripFare').textContent = tarifa != null ? `$${tarifa.toFixed(2)}` : '$—';
           document.getElementById('fareAmount').textContent = tarifa != null ? `$${tarifa.toFixed(2)}` : '$0.00';
         }

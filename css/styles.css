@@ -190,8 +190,8 @@ body[data-theme="light"] .base-selector select option {
 
 /* ============ MAPA ============ */
 .map-section {
-  flex: 0 0 22vh;
-  min-height: 140px;
+  flex: 0 0 26vh;
+  min-height: 170px;
   position: relative;
   overflow: hidden;
 }
@@ -691,6 +691,227 @@ body[data-theme="light"] .timer-display {
   flex-direction: column;
   gap: 1px;
   font-size: 12px;
+}
+
+.trip-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-glow);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 2px 4px;
+  outline: none;
+  min-width: 0;
+}
+
+.trip-input:focus {
+  border-bottom-color: var(--neon-green);
+}
+
+.trip-input::placeholder {
+  color: var(--text-secondary);
+  font-style: italic;
+  font-size: 11px;
+}
+
+.trip-set-btn {
+  background: linear-gradient(135deg, var(--neon-green), #0f766e);
+  border: none;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  color: #001a10;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.trip-set-btn:active {
+  transform: scale(0.92);
+}
+
+/* ============ MODAL GASTOS ============ */
+.gasto-categorias {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.gasto-cat-btn {
+  padding: 10px 4px;
+  background: rgba(94, 234, 212, 0.06);
+  border: 1.5px solid var(--border-glow);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.gasto-cat-btn:active {
+  transform: scale(0.95);
+}
+
+.gasto-cat-btn.active {
+  background: rgba(252, 211, 77, 0.15);
+  border-color: var(--neon-gold);
+  color: var(--neon-gold);
+  box-shadow: 0 0 10px rgba(252, 211, 77, 0.3);
+}
+
+.gastos-list {
+  margin-top: 14px;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+.gasto-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: rgba(255, 77, 77, 0.08);
+  border-left: 3px solid #ff6b6b;
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+.gasto-item-info {
+  flex: 1;
+}
+
+.gasto-item-cat {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.gasto-item-desc {
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.gasto-item-monto {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: #ff6b6b;
+  margin-left: 8px;
+}
+
+.gasto-item-delete {
+  background: rgba(255, 77, 77, 0.2);
+  border: none;
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  color: #ff6b6b;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.gasto-item-delete:active {
+  transform: scale(0.9);
+}
+
+/* Botón gastos del drawer */
+.drawer-gastos-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, rgba(255, 77, 77, 0.15), rgba(255, 77, 77, 0.08));
+  border: 1.5px solid #ff6b6b;
+  border-radius: 10px;
+  color: #ff6b6b;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+
+.drawer-gastos-btn:active {
+  transform: scale(0.98);
+}
+
+/* ============ EDITAR/ELIMINAR VIAJES ============ */
+.viaje-item {
+  position: relative;
+}
+
+.viaje-edit-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(94, 234, 212, 0.15);
+  border: 1px solid var(--border-glow);
+  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  color: var(--neon-green);
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.viaje-edit-btn:active {
+  transform: scale(0.9);
+}
+
+.viaje-delete-btn {
+  position: absolute;
+  top: 8px;
+  right: 40px;
+  background: rgba(255, 77, 77, 0.15);
+  border: 1px solid rgba(255, 77, 77, 0.3);
+  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  color: #ff6b6b;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.viaje-delete-btn:active {
+  transform: scale(0.9);
+}
+
+.viaje-edit-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--neon-green);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 8px;
+  outline: none;
+  margin: 2px 0;
+}
+
+body[data-theme="light"] .viaje-edit-input {
+  background: #ffffff;
 }
 
 .trip-point {

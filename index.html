@@ -162,17 +162,18 @@
       <div class="trip-body">
         <div class="trip-point">
           <span class="dot green"></span>
-          <span id="tripOrigin">SIN DESTINO</span>
+          <input type="text" class="trip-input" id="tripOrigin" placeholder="Origen (escribe o usa voz)" value="BASE ACTIVA">
         </div>
         <div class="trip-arrow">↓</div>
         <div class="trip-point">
           <span class="dot yellow"></span>
-          <span id="tripDest">—</span>
+          <input type="text" class="trip-input" id="tripDest" placeholder="Destino (escribe o usa voz)">
         </div>
       </div>
       <div class="trip-meta">
         <span>⏱️ <span id="tripTime">0 min</span></span>
         <span>💰 <span id="tripFare">$0.00</span></span>
+        <button class="trip-set-btn" id="btnSetTrip" title="Confirmar viaje manual">✓</button>
       </div>
     </section>
 
@@ -226,6 +227,12 @@
       <!-- BOTÓN AÑADIR DESTINO -->
       <button class="drawer-add-btn" id="btnAddZoneDrawer">
         <span>➕</span> Añadir destino nuevo
+      </button>
+
+      <!-- BOTÓN GASTOS -->
+      <div class="drawer-section-title">Gestión</div>
+      <button class="drawer-gastos-btn" id="btnGastosDrawer">
+        💸 Gastos y Eventualidades
       </button>
 
       <!-- COLABORAR -->
@@ -300,6 +307,38 @@
         <div class="avatar-preview" id="avatarPreview"></div>
 
         <button class="modal-btn-primary" id="btnSaveProfile">💾 Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL GASTOS / EVENTUALIDADES -->
+  <div class="modal-overlay" id="modalGastos">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>💸 Gastos y Eventualidades</h2>
+        <button class="modal-close" data-close="modalGastos">✕</button>
+      </div>
+      <div class="modal-body">
+        <label class="modal-label">Tipo de gasto</label>
+        <div class="gasto-categorias" id="gastoCategorias">
+          <button class="gasto-cat-btn active" data-cat="Combustible">⛽ Combustible</button>
+          <button class="gasto-cat-btn" data-cat="Comida">🍽️ Comida</button>
+          <button class="gasto-cat-btn" data-cat="Reparación">🔧 Reparación</button>
+          <button class="gasto-cat-btn" data-cat="Lavado">🧼 Lavado</button>
+          <button class="gasto-cat-btn" data-cat="Cauchos">🛞 Cauchos</button>
+          <button class="gasto-cat-btn" data-cat="Multa">📄 Multa</button>
+          <button class="gasto-cat-btn" data-cat="Otros">📦 Otros</button>
+        </div>
+
+        <label class="modal-label">Monto en $</label>
+        <input type="number" class="modal-input" id="inputGastoMonto" placeholder="0.00" step="0.50" min="0">
+
+        <label class="modal-label">Descripción (opcional)</label>
+        <input type="text" class="modal-input" id="inputGastoDesc" placeholder="Ej: 2 cauchos nuevos" maxlength="60">
+
+        <button class="modal-btn-primary" id="btnSaveGasto">➕ Agregar gasto</button>
+
+        <div class="gastos-list" id="gastosList"></div>
       </div>
     </div>
   </div>
