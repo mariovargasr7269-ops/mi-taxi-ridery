@@ -122,7 +122,7 @@ body {
 
 .app-title {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1;
   letter-spacing: 1px;
 }
@@ -160,7 +160,7 @@ body {
   color: var(--text-secondary);
   font-weight: 700;
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.5px;
 }
 
@@ -172,7 +172,7 @@ body {
   border-radius: 6px;
   padding: 5px 8px;
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   outline: none;
 }
@@ -361,7 +361,7 @@ body[data-theme="light"] .map-btn {
 }
 
 .timer-label {
-  font-size: 7px;
+  font-size: 9px;
   letter-spacing: 1px;
   color: var(--neon-gold);
   font-weight: 700;
@@ -369,7 +369,7 @@ body[data-theme="light"] .map-btn {
 
 .timer-value {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 900;
   color: var(--text-primary);
   line-height: 1;
@@ -377,7 +377,7 @@ body[data-theme="light"] .map-btn {
 }
 
 .timer-status {
-  font-size: 7px;
+  font-size: 9px;
   letter-spacing: 1px;
   color: var(--text-secondary);
   margin-top: 1px;
@@ -390,7 +390,7 @@ body[data-theme="light"] .map-btn {
 
 .timer-display {
   font-family: var(--font-display);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--neon-gold);
   margin-top: 3px;
   padding: 2px;
@@ -414,7 +414,7 @@ body[data-theme="light"] .timer-display {
   color: #001a10;
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
   box-shadow: 0 0 12px rgba(94, 234, 212, 0.5);
   transition: all 0.2s;
@@ -441,7 +441,7 @@ body[data-theme="light"] .timer-display {
 }
 
 .fare-label {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--neon-green);
   letter-spacing: 0.5px;
   font-weight: 600;
@@ -450,7 +450,7 @@ body[data-theme="light"] .timer-display {
 
 .fare-amount {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 900;
   color: var(--neon-gold);
   text-shadow: 0 0 15px rgba(252, 211, 77, 0.8);
@@ -459,7 +459,7 @@ body[data-theme="light"] .timer-display {
 }
 
 .fare-details {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--text-secondary);
   display: flex;
   flex-direction: column;
@@ -520,12 +520,12 @@ body[data-theme="light"] .timer-display {
 }
 
 .qb-icon {
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1;
 }
 
 .qb-name {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   text-align: center;
   line-height: 1.1;
@@ -538,7 +538,7 @@ body[data-theme="light"] .timer-display {
 }
 
 .qb-clave {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--neon-green);
   font-family: var(--font-display);
   letter-spacing: 0.5px;
@@ -573,7 +573,7 @@ body[data-theme="light"] .timer-display {
   justify-content: center;
   padding: 2px 10px;
   position: relative;
-  min-height: 90px;
+  min-height: 104px;
 }
 
 .voice-title {
@@ -582,8 +582,8 @@ body[data-theme="light"] .timer-display {
 
 .voice-button {
   position: relative;
-  width: 78px;
-  height: 78px;
+  width: 92px;
+  height: 92px;
   border-radius: 50%;
   background: radial-gradient(circle at 40% 30%, rgba(94, 234, 212, 0.3), rgba(0, 100, 70, 0.5));
   border: 2px solid var(--neon-green);
@@ -639,13 +639,13 @@ body[data-theme="light"] .timer-display {
 }
 
 .voice-mic {
-  font-size: 26px;
+  font-size: 32px;
   filter: drop-shadow(0 0 8px var(--neon-green));
 }
 
 .voice-label {
   font-family: var(--font-display);
-  font-size: 9px;
+  font-size: 11px;
   color: var(--neon-green);
   letter-spacing: 2px;
   font-weight: 700;
@@ -679,7 +679,7 @@ body[data-theme="light"] .timer-display {
 
 .trip-title {
   font-family: var(--font-display);
-  font-size: 8px;
+  font-size: 10px;
   color: var(--neon-green);
   letter-spacing: 2px;
   margin-bottom: 2px;
@@ -690,7 +690,7 @@ body[data-theme="light"] .timer-display {
   display: flex;
   flex-direction: column;
   gap: 1px;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .trip-point {
@@ -748,7 +748,7 @@ body[data-theme="light"] .timer-display {
   border-radius: 9px;
   color: #001a10;
   font-family: var(--font-display);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 1px;
   cursor: pointer;
@@ -881,7 +881,7 @@ body[data-theme="light"] .timer-display {
 
 .drawer-logo {
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   color: var(--neon-green);
   letter-spacing: 1px;
@@ -906,7 +906,7 @@ body[data-theme="light"] .timer-display {
 
 .drawer-section-title {
   font-family: var(--font-display);
-  font-size: 11px;
+  font-size: 13px;
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -930,13 +930,13 @@ body[data-theme="light"] .timer-display {
   align-items: center;
   gap: 14px;
   width: 100%;
-  padding: 13px 14px;
+  padding: 14px 14px;
   background: rgba(94, 234, 212, 0.05);
   border: 1px solid transparent;
   border-radius: 10px;
   color: var(--text-primary);
   font-family: var(--font-body);
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -954,8 +954,8 @@ body[data-theme="light"] .timer-display {
 }
 
 .drawer-nav-icon {
-  font-size: 22px;
-  width: 28px;
+  font-size: 26px;
+  width: 32px;
   text-align: center;
 }
 
@@ -974,7 +974,7 @@ body[data-theme="light"] .timer-display {
 }
 
 .drawer-quick-grid .qb-name {
-  font-size: 10px;
+  font-size: 12px;
   max-width: none;
   white-space: normal;
 }
@@ -986,13 +986,13 @@ body[data-theme="light"] .timer-display {
   justify-content: center;
   gap: 8px;
   width: 100%;
-  padding: 13px;
+  padding: 14px;
   background: linear-gradient(135deg, rgba(252, 211, 77, 0.15), rgba(252, 211, 77, 0.08));
   border: 1.5px dashed var(--neon-gold);
   border-radius: 10px;
   color: var(--neon-gold);
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   margin-bottom: 14px;
@@ -1009,13 +1009,13 @@ body[data-theme="light"] .timer-display {
   justify-content: center;
   gap: 8px;
   width: 100%;
-  padding: 13px;
+  padding: 14px;
   background: linear-gradient(135deg, #25d366, #128c4a);
   border: none;
   border-radius: 10px;
   color: #fff;
   font-family: var(--font-body);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   margin-bottom: 14px;
@@ -1031,21 +1031,21 @@ body[data-theme="light"] .timer-display {
   padding-top: 16px;
   border-top: 1px solid var(--border-glow);
   text-align: center;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-secondary);
   line-height: 1.5;
 }
 
 .drawer-footer strong {
   color: var(--neon-gold);
-  font-size: 13px;
+  font-size: 14px;
 }
 
 /* ============ CRÉDITO PIE DE PANTALLA ============ */
 .app-credit {
   text-align: center;
   padding: 2px 10px 4px;
-  font-size: 9px;
+  font-size: 10px;
   color: var(--text-secondary);
   background: rgba(94, 234, 212, 0.04);
   border-top: 1px solid rgba(94, 234, 212, 0.1);
