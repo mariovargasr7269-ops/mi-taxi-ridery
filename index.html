@@ -34,9 +34,6 @@
         <button class="icon-btn" id="btnNotifications" aria-label="Notificaciones">
           🔔<span class="badge" id="notifBadge">0</span>
         </button>
-        <button class="icon-btn" id="btnAbout" aria-label="Acerca de y colaborar" title="Acerca de / Colaborar">
-          🤝
-        </button>
       </div>
       <div class="header-center">
         <h1 class="app-title">
@@ -282,8 +279,53 @@
           <option value="base6" selected>Base 6 — Río Terranova</option>
           <option value="base10">Base 10 — Nova Sabanamar</option>
         </select>
-        
+
+        <label class="modal-label">Avatar</label>
+        <div class="avatar-grid" id="avatarGrid">
+          <button class="avatar-option" data-avatar="🧑‍✈️">🧑‍✈️</button>
+          <button class="avatar-option" data-avatar="👨‍🦱">👨‍🦱</button>
+          <button class="avatar-option" data-avatar="👩‍🦱">👩‍🦱</button>
+          <button class="avatar-option" data-avatar="🧔">🧔</button>
+          <button class="avatar-option" data-avatar="👴">👴</button>
+          <button class="avatar-option" data-avatar="🚕">🚕</button>
+          <button class="avatar-option" data-avatar="🧢">🧢</button>
+          <button class="avatar-option" data-avatar="😎">😎</button>
+        </div>
+
+        <label class="modal-label">O sube tu foto</label>
+        <label class="avatar-upload-btn" for="inputFotoPerfil">
+          📷 Subir foto del chofer
+        </label>
+        <input type="file" id="inputFotoPerfil" accept="image/*" style="display:none">
+        <div class="avatar-preview" id="avatarPreview"></div>
+
         <button class="modal-btn-primary" id="btnSaveProfile">💾 Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL VIAJES DE HOY -->
+  <div class="modal-overlay" id="modalViajes">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>📋 Viajes de hoy</h2>
+        <button class="modal-close" data-close="modalViajes">✕</button>
+      </div>
+      <div class="modal-body" id="viajesList">
+        <p class="modal-empty">No hay viajes registrados todavía</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL HISTORIAL -->
+  <div class="modal-overlay" id="modalHistorial">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>📜 Historial de jornadas</h2>
+        <button class="modal-close" data-close="modalHistorial">✕</button>
+      </div>
+      <div class="modal-body" id="historialList">
+        <p class="modal-empty">No hay jornadas guardadas todavía</p>
       </div>
     </div>
   </div>

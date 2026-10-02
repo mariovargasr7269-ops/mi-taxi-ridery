@@ -11,13 +11,15 @@ const state = {
   vozEscuchando: false,
   viajesHoy: [],
   gastosHoy: [],
+  historialJornadas: [],
   temaActual: 'dark',
   modoVoz: 'B', // A = corta, B = larga, C = configurable
   perfil: {
     nombre: '',
     telefono: '',
     vehiculo: '',
-    avatar: '👤',
+    avatar: '🧑‍✈️',
+    foto: null, // base64 de la foto subida
     baseHabitual: 'base6'
   },
   notificaciones: []
@@ -52,15 +54,18 @@ function cargarPreferencias() {
   try {
     const perfilGuardado = localStorage.getItem('perfil');
     if (perfilGuardado) state.perfil = { ...state.perfil, ...JSON.parse(perfilGuardado) };
-    
+
     const temaGuardado = localStorage.getItem('tema');
     if (temaGuardado) state.temaActual = temaGuardado;
-    
+
     const baseGuardada = localStorage.getItem('baseActiva');
     if (baseGuardada) state.baseActiva = baseGuardada;
-    
+
     const modoVozGuardado = localStorage.getItem('modoVoz');
     if (modoVozGuardado) state.modoVoz = modoVozGuardado;
+
+    const historialGuardado = localStorage.getItem('historialJornadas');
+    if (historialGuardado) state.historialJornadas = JSON.parse(historialGuardado);
   } catch (e) {
     console.warn('No se pudo cargar preferencias:', e);
   }
@@ -72,6 +77,7 @@ function guardarPreferencias() {
     localStorage.setItem('tema', state.temaActual);
     localStorage.setItem('baseActiva', state.baseActiva);
     localStorage.setItem('modoVoz', state.modoVoz);
+    localStorage.setItem('historialJornadas', JSON.stringify(state.historialJornadas));
   } catch (e) {
     console.warn('No se pudo guardar:', e);
   }
@@ -85,8 +91,12 @@ function aplicarTema() {
 
 // ============ APLICAR PERFIL ============
 function aplicarPerfil() {
-  if (state.perfil.nombre) {
-    ui.avatarEmoji.textContent = state.perfil.avatar || '👤';
+  const avatarEl = ui.avatarEmoji;
+  if (!avatarEl) return;
+  if (state.perfil.foto) {
+    avatarEl.innerHTML = `<img src="${state.perfil.foto}" style="width:22px;height:22px;border-radius:50%;object-fit:cover" alt="avatar">`;
+  } else {
+    avatarEl.textContent = state.perfil.avatar || '🧑‍✈️';
   }
 }
 
@@ -136,24 +146,31 @@ function terminarJornada() {
   clearInterval(state.cronometroInterval);
   const ms = Date.now() - state.jornadaInicio;
   const { largo } = formatearTiempo(ms);
-  const totalRecaudado = state.viajesHoy.reduce((s, v) => s + v.tarifa, 0);
-  const totalGastos = state.gastosHoy.reduce((s, g) => s + g.monto, 0);
+  const totalRecaudado = state.viajesHoy.reduce((s, v) => s + (v.tarifa || 0), 0);
+  const totalGastos = state.gastosHoy.reduce((s, g) => s + (g.monto || 0), 0);
   const neto = totalRecaudado - totalGastos;
 
-  hablar(`Jornada terminada. Duró ${largo}. Recaudaste ${totalRecaudado} dólares.`);
+  // Guardar en el historial
+  const fecha = new Date(state.jornadaInicio);
+  const fechaStr = fecha.toLocaleDateString('es-VE', { weekday: 'short', day: 'numeric', month: 'short' });
+  state.historialJornadas.push({
+    fecha: fechaStr,
+    duracion: largo,
+    viajes: state.viajesHoy.length,
+    recaudado: totalRecaudado,
+    gastos: totalGastos,
+    neto: neto,
+    inicioISO: fecha.toISOString()
+  });
+  if (state.historialJornadas.length > 30) state.historialJornadas.shift();
+  guardarPreferencias();
 
-  alert(
-    `📊 BALANCE DE JORNADA\n\n` +
-    `⏱️ Duración: ${largo}\n` +
-    `🕐 Inicio: ${new Date(state.jornadaInicio).toLocaleString()}\n` +
-    `🕐 Fin: ${new Date().toLocaleString()}\n\n` +
-    `🚕 Viajes: ${state.viajesHoy.length}\n` +
-    `💰 Recaudado: $${totalRecaudado.toFixed(2)}\n` +
-    `💸 Gastos: $${totalGastos.toFixed(2)}\n` +
-    `✅ Neto: $${neto.toFixed(2)}`
-  );
+  hablar(`Jornada terminada. Duró ${largo}. Recaudaste ${totalRecaudado.toFixed(2)} dólares. Neto ${neto.toFixed(2)}.`);
 
-  // Detener trazado de recorrido y guardar puntos en la jornada
+  // Mostrar el balance en el modal de Viajes (mismo estilo que la app)
+  agregarNotificacion(`📊 Jornada: ${state.viajesHoy.length} viajes · Neto $${neto.toFixed(2)} · Guardada en historial`);
+
+  // Detener trazado de recorrido
   if (window.mapaModule?.terminarRecorrido) {
     const puntos = window.mapaModule.terminarRecorrido();
     if (puntos && puntos.length > 1) {
@@ -553,12 +570,63 @@ $('btnAbout')?.addEventListener('click', () => {
 });
 
 // ============ PERFIL ============
+let avatarSeleccionado = '🧑‍✈️';
+
 function cargarPerfilEnModal() {
   $('inputNombre').value = state.perfil.nombre || '';
   $('inputTelefono').value = state.perfil.telefono || '';
   $('inputVehiculo').value = state.perfil.vehiculo || '';
   $('inputBaseHabitual').value = state.perfil.baseHabitual || 'base6';
+  avatarSeleccionado = state.perfil.avatar || '🧑‍✈️';
+  actualizarAvatarGrid();
+  actualizarAvatarPreview();
 }
+
+function actualizarAvatarGrid() {
+  const grid = $('avatarGrid');
+  if (!grid) return;
+  grid.querySelectorAll('.avatar-option').forEach(btn => {
+    btn.classList.toggle('selected', btn.dataset.avatar === avatarSeleccionado);
+  });
+}
+
+function actualizarAvatarPreview() {
+  const cont = $('avatarPreview');
+  if (!cont) return;
+  if (state.perfil.foto) {
+    cont.innerHTML = `<img src="${state.perfil.foto}" alt="tu foto">`;
+  } else {
+    cont.innerHTML = `<div class="avatar-emoji-big">${avatarSeleccionado}</div>`;
+  }
+}
+
+// Click en un avatar de la grilla
+$('avatarGrid')?.addEventListener('click', (e) => {
+  const btn = e.target.closest('.avatar-option');
+  if (!btn) return;
+  avatarSeleccionado = btn.dataset.avatar;
+  // Si se elige un avatar, se quita la foto
+  state.perfil.foto = null;
+  actualizarAvatarGrid();
+  actualizarAvatarPreview();
+});
+
+// Subir foto del chofer
+$('inputFotoPerfil')?.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 500000) {
+    agregarNotificacion('⚠️ La foto es muy grande. Máximo 500KB.');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    state.perfil.foto = ev.target.result;
+    actualizarAvatarPreview();
+    agregarNotificacion('📷 Foto cargada. Toca Guardar.');
+  };
+  reader.readAsDataURL(file);
+});
 
 ui.btnProfile.addEventListener('click', () => {
   cargarPerfilEnModal();
@@ -570,8 +638,11 @@ $('btnSaveProfile').addEventListener('click', () => {
   state.perfil.telefono = $('inputTelefono').value.trim();
   state.perfil.vehiculo = $('inputVehiculo').value.trim();
   state.perfil.baseHabitual = $('inputBaseHabitual').value;
-  state.perfil.avatar = state.perfil.nombre ? '🧑‍✈️' : '👤';
-  
+  // Si no hay foto, guardar el avatar seleccionado
+  if (!state.perfil.foto) {
+    state.perfil.avatar = avatarSeleccionado;
+  }
+
   guardarPreferencias();
   aplicarPerfil();
   cerrarModal('modalProfile');
@@ -629,12 +700,17 @@ document.querySelectorAll('.drawer-nav-btn').forEach(btn => {
     cerrarDrawer();
 
     if (screen === 'dashboard') {
-      // Ya estamos en inicio, solo cerrar el drawer
       agregarNotificacion('📊 Pantalla principal');
-    } else if (screen === 'trips' || screen === 'history') {
-      const total = state.viajesHoy.reduce((s, v) => s + v.tarifa, 0);
-      const neto = total - state.gastosHoy.reduce((s, g) => s + g.monto, 0);
-      alert(`📋 VIAJES DE HOY\n\n🚕 Cantidad: ${state.viajesHoy.length}\n💰 Recaudado: $${total.toFixed(2)}\n💸 Gastos: $${state.gastosHoy.reduce((s, g) => s + g.monto, 0).toFixed(2)}\n✅ Neto: $${neto.toFixed(2)}`);
+    } else if (screen === 'trips') {
+      setTimeout(() => {
+        renderViajesModal();
+        abrirModal('modalViajes');
+      }, 250);
+    } else if (screen === 'history') {
+      setTimeout(() => {
+        renderHistorialModal();
+        abrirModal('modalHistorial');
+      }, 250);
     } else if (screen === 'messages') {
       agregarNotificacion('💬 No hay mensajes nuevos');
       setTimeout(() => abrirModal('modalNotif'), 250);
@@ -646,6 +722,66 @@ document.querySelectorAll('.drawer-nav-btn').forEach(btn => {
     }
   });
 });
+
+// ============ MODAL VIAJES DE HOY ============
+function renderViajesModal() {
+  const cont = $('viajesList');
+  if (!cont) return;
+  const n = state.viajesHoy.length;
+  const total = state.viajesHoy.reduce((s, v) => s + (v.tarifa || 0), 0);
+  const gastos = state.gastosHoy.reduce((s, g) => s + (g.monto || 0), 0);
+  const neto = total - gastos;
+
+  let html = `
+    <div class="viaje-balance">
+      <div class="viaje-balance-label">Balance de hoy</div>
+      <div class="viaje-balance-total">$${neto.toFixed(2)}</div>
+      <div class="viaje-balance-detalles">
+        <div>🚕 <span>${n}</span> viajes</div>
+        <div>💰 <span>$${total.toFixed(2)}</span></div>
+        <div>💸 <span>$${gastos.toFixed(2)}</span></div>
+      </div>
+    </div>
+  `;
+
+  if (n === 0) {
+    html += '<p class="modal-empty">Aún no has aceptado viajes hoy. Toca "Aceptar Carrera" en la pantalla principal.</p>';
+  } else {
+    html += state.viajesHoy.slice().reverse().map((v, i) => `
+      <div class="viaje-item">
+        <div class="viaje-info">
+          <div class="viaje-hora">🕐 ${v.hora || '—'}</div>
+          <div class="viaje-ruta">${v.origen || 'Base'} → ${v.destino || '—'}</div>
+        </div>
+        <div class="viaje-tarifa">$${(v.tarifa || 0).toFixed(2)}</div>
+      </div>
+    `).join('');
+  }
+
+  cont.innerHTML = html;
+}
+
+// ============ MODAL HISTORIAL DE JORNADAS ============
+function renderHistorialModal() {
+  const cont = $('historialList');
+  if (!cont) return;
+  const jornadas = state.historialJornadas || [];
+
+  if (jornadas.length === 0) {
+    cont.innerHTML = '<p class="modal-empty">No hay jornadas guardadas. Termina una jornada (botón "Terminando mi 05") para que aparezca aquí.</p>';
+    return;
+  }
+
+  cont.innerHTML = jornadas.slice().reverse().map(j => `
+    <div class="historial-item">
+      <div class="historial-info">
+        <div class="historial-fecha">📅 ${j.fecha || '—'} · ⏱️ ${j.duracion || '—'}</div>
+        <div class="historial-resumen">${j.viajes || 0} viajes · Neto $${(j.neto || 0).toFixed(2)}</div>
+      </div>
+      <div class="historial-total">$${(j.recaudado || 0).toFixed(2)}</div>
+    </div>
+  `).join('');
+}
 
 // ============ GPS ============
 $('btnLocate')?.addEventListener('click', () => {
